@@ -28,6 +28,11 @@ public:
                    const Vector3f &dirToLight, const Vector3f &lightColor) {
         Vector3f shaded = Vector3f::ZERO;
         // 
+        
+        Vector3f Rx = 2 * Vector3f::dot(dirToLight, hit.getNormal()) * hit.getNormal() - dirToLight;
+        shaded = lightColor * (diffuseColor * std::max(0.0f, Vector3f::dot(dirToLight, hit.getNormal())) + 
+                               specularColor * pow(std::max(0.0f, - Vector3f::dot(ray.getDirection(), Rx)), shininess) );
+       // std::cout<<"("<<lightColor.x()<<", "<<lightColor.y()<<", "<<lightColor.z()<<")\n";
         return shaded;
     }
 
