@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "intelliSenseMode": "clang-x64",
+            "includePath": [
+                "include/",
+                "deps/freeglut/include/GL/",
+                "deps/vecmath/include"
+            ]
+        }
+    ],
+    "version": 4
+}

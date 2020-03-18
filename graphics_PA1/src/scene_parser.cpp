@@ -323,7 +323,7 @@ Group *SceneParser::parseGroup() {
             Object3D *object = parseObject(token);
             assert (object != nullptr);
             answer->addObject(count, object);
-            cout << count << endl;
+            // cout << count << endl;
             count++;
         }
     }
