@@ -56,6 +56,18 @@ Vector4f.h
 vecio.h
 ../deps/vecmath/include/vecio.h
 
+../include/Bernstein.hpp
+object3d.hpp
+../include/object3d.hpp
+vecmath.h
+-
+vector
+-
+utility
+-
+algorithm
+-
+
 ../include/camera.hpp
 ray.hpp
 ../include/ray.hpp
@@ -79,6 +91,8 @@ camera.hpp
 ../include/curve.hpp
 object3d.hpp
 ../include/object3d.hpp
+Bernstein.hpp
+../include/Bernstein.hpp
 vecmath.h
 -
 vector
@@ -209,6 +223,10 @@ cmath
 -
 iostream
 -
+
+/home/ubuntu/graphics/graphics_PA3/src/Bernstein.cpp
+Bernstein.hpp
+/home/ubuntu/graphics/graphics_PA3/src/Bernstein.hpp
 
 /home/ubuntu/graphics/graphics_PA3/src/camera_controller.cpp
 camera_controller.hpp

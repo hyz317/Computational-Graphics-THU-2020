@@ -22,6 +22,7 @@ FIND_PATH(GLUT_INCLUDE_SUBDIR
 ADD_SUBDIRECTORY(deps/vecmath)
 
 SET(PA3_SOURCES
+        src/Bernstein.cpp
         src/image.cpp
         src/main.cpp
         src/mesh.cpp
@@ -29,6 +30,7 @@ SET(PA3_SOURCES
         src/camera_controller.cpp)
 
 SET(PA3_INCLUDES
+        include/Bernstein.hpp
         include/camera.hpp
         include/group.hpp
         include/hit.hpp

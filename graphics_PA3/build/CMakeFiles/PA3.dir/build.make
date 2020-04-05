@@ -57,9 +57,33 @@ include CMakeFiles/PA3.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/PA3.dir/flags.make
 
+CMakeFiles/PA3.dir/src/Bernstein.cpp.o: CMakeFiles/PA3.dir/flags.make
+CMakeFiles/PA3.dir/src/Bernstein.cpp.o: ../src/Bernstein.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/PA3.dir/src/Bernstein.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PA3.dir/src/Bernstein.cpp.o -c /home/ubuntu/graphics/graphics_PA3/src/Bernstein.cpp
+
+CMakeFiles/PA3.dir/src/Bernstein.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/PA3.dir/src/Bernstein.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/graphics/graphics_PA3/src/Bernstein.cpp > CMakeFiles/PA3.dir/src/Bernstein.cpp.i
+
+CMakeFiles/PA3.dir/src/Bernstein.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/PA3.dir/src/Bernstein.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/graphics/graphics_PA3/src/Bernstein.cpp -o CMakeFiles/PA3.dir/src/Bernstein.cpp.s
+
+CMakeFiles/PA3.dir/src/Bernstein.cpp.o.requires:
+
+.PHONY : CMakeFiles/PA3.dir/src/Bernstein.cpp.o.requires
+
+CMakeFiles/PA3.dir/src/Bernstein.cpp.o.provides: CMakeFiles/PA3.dir/src/Bernstein.cpp.o.requires
+	$(MAKE) -f CMakeFiles/PA3.dir/build.make CMakeFiles/PA3.dir/src/Bernstein.cpp.o.provides.build
+.PHONY : CMakeFiles/PA3.dir/src/Bernstein.cpp.o.provides
+
+CMakeFiles/PA3.dir/src/Bernstein.cpp.o.provides.build: CMakeFiles/PA3.dir/src/Bernstein.cpp.o
+
+
 CMakeFiles/PA3.dir/src/image.cpp.o: CMakeFiles/PA3.dir/flags.make
 CMakeFiles/PA3.dir/src/image.cpp.o: ../src/image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/PA3.dir/src/image.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/PA3.dir/src/image.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PA3.dir/src/image.cpp.o -c /home/ubuntu/graphics/graphics_PA3/src/image.cpp
 
 CMakeFiles/PA3.dir/src/image.cpp.i: cmake_force
@@ -83,7 +107,7 @@ CMakeFiles/PA3.dir/src/image.cpp.o.provides.build: CMakeFiles/PA3.dir/src/image.
 
 CMakeFiles/PA3.dir/src/main.cpp.o: CMakeFiles/PA3.dir/flags.make
 CMakeFiles/PA3.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/PA3.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PA3.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PA3.dir/src/main.cpp.o -c /home/ubuntu/graphics/graphics_PA3/src/main.cpp
 
 CMakeFiles/PA3.dir/src/main.cpp.i: cmake_force
@@ -107,7 +131,7 @@ CMakeFiles/PA3.dir/src/main.cpp.o.provides.build: CMakeFiles/PA3.dir/src/main.cp
 
 CMakeFiles/PA3.dir/src/mesh.cpp.o: CMakeFiles/PA3.dir/flags.make
 CMakeFiles/PA3.dir/src/mesh.cpp.o: ../src/mesh.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/PA3.dir/src/mesh.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PA3.dir/src/mesh.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PA3.dir/src/mesh.cpp.o -c /home/ubuntu/graphics/graphics_PA3/src/mesh.cpp
 
 CMakeFiles/PA3.dir/src/mesh.cpp.i: cmake_force
@@ -131,7 +155,7 @@ CMakeFiles/PA3.dir/src/mesh.cpp.o.provides.build: CMakeFiles/PA3.dir/src/mesh.cp
 
 CMakeFiles/PA3.dir/src/scene_parser.cpp.o: CMakeFiles/PA3.dir/flags.make
 CMakeFiles/PA3.dir/src/scene_parser.cpp.o: ../src/scene_parser.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/PA3.dir/src/scene_parser.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PA3.dir/src/scene_parser.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PA3.dir/src/scene_parser.cpp.o -c /home/ubuntu/graphics/graphics_PA3/src/scene_parser.cpp
 
 CMakeFiles/PA3.dir/src/scene_parser.cpp.i: cmake_force
@@ -155,7 +179,7 @@ CMakeFiles/PA3.dir/src/scene_parser.cpp.o.provides.build: CMakeFiles/PA3.dir/src
 
 CMakeFiles/PA3.dir/src/camera_controller.cpp.o: CMakeFiles/PA3.dir/flags.make
 CMakeFiles/PA3.dir/src/camera_controller.cpp.o: ../src/camera_controller.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/PA3.dir/src/camera_controller.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/PA3.dir/src/camera_controller.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/PA3.dir/src/camera_controller.cpp.o -c /home/ubuntu/graphics/graphics_PA3/src/camera_controller.cpp
 
 CMakeFiles/PA3.dir/src/camera_controller.cpp.i: cmake_force
@@ -179,6 +203,7 @@ CMakeFiles/PA3.dir/src/camera_controller.cpp.o.provides.build: CMakeFiles/PA3.di
 
 # Object files for target PA3
 PA3_OBJECTS = \
+"CMakeFiles/PA3.dir/src/Bernstein.cpp.o" \
 "CMakeFiles/PA3.dir/src/image.cpp.o" \
 "CMakeFiles/PA3.dir/src/main.cpp.o" \
 "CMakeFiles/PA3.dir/src/mesh.cpp.o" \
@@ -188,6 +213,7 @@ PA3_OBJECTS = \
 # External object files for target PA3
 PA3_EXTERNAL_OBJECTS =
 
+../bin/PA3: CMakeFiles/PA3.dir/src/Bernstein.cpp.o
 ../bin/PA3: CMakeFiles/PA3.dir/src/image.cpp.o
 ../bin/PA3: CMakeFiles/PA3.dir/src/main.cpp.o
 ../bin/PA3: CMakeFiles/PA3.dir/src/mesh.cpp.o
@@ -199,7 +225,7 @@ PA3_EXTERNAL_OBJECTS =
 ../bin/PA3: /usr/lib/x86_64-linux-gnu/libGLU.so
 ../bin/PA3: /usr/lib/x86_64-linux-gnu/libglut.so
 ../bin/PA3: CMakeFiles/PA3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../bin/PA3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable ../bin/PA3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/PA3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -207,6 +233,7 @@ CMakeFiles/PA3.dir/build: ../bin/PA3
 
 .PHONY : CMakeFiles/PA3.dir/build
 
+CMakeFiles/PA3.dir/requires: CMakeFiles/PA3.dir/src/Bernstein.cpp.o.requires
 CMakeFiles/PA3.dir/requires: CMakeFiles/PA3.dir/src/image.cpp.o.requires
 CMakeFiles/PA3.dir/requires: CMakeFiles/PA3.dir/src/main.cpp.o.requires
 CMakeFiles/PA3.dir/requires: CMakeFiles/PA3.dir/src/mesh.cpp.o.requires

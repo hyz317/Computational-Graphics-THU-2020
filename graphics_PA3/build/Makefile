@@ -136,6 +136,33 @@ vecmath/fast:
 	$(MAKE) -f deps/vecmath/CMakeFiles/vecmath.dir/build.make deps/vecmath/CMakeFiles/vecmath.dir/build
 .PHONY : vecmath/fast
 
+src/Bernstein.o: src/Bernstein.cpp.o
+
+.PHONY : src/Bernstein.o
+
+# target to build an object file
+src/Bernstein.cpp.o:
+	$(MAKE) -f CMakeFiles/PA3.dir/build.make CMakeFiles/PA3.dir/src/Bernstein.cpp.o
+.PHONY : src/Bernstein.cpp.o
+
+src/Bernstein.i: src/Bernstein.cpp.i
+
+.PHONY : src/Bernstein.i
+
+# target to preprocess a source file
+src/Bernstein.cpp.i:
+	$(MAKE) -f CMakeFiles/PA3.dir/build.make CMakeFiles/PA3.dir/src/Bernstein.cpp.i
+.PHONY : src/Bernstein.cpp.i
+
+src/Bernstein.s: src/Bernstein.cpp.s
+
+.PHONY : src/Bernstein.s
+
+# target to generate assembly for a file
+src/Bernstein.cpp.s:
+	$(MAKE) -f CMakeFiles/PA3.dir/build.make CMakeFiles/PA3.dir/src/Bernstein.cpp.s
+.PHONY : src/Bernstein.cpp.s
+
 src/camera_controller.o: src/camera_controller.cpp.o
 
 .PHONY : src/camera_controller.o
@@ -281,6 +308,9 @@ help:
 	@echo "... PA3"
 	@echo "... edit_cache"
 	@echo "... vecmath"
+	@echo "... src/Bernstein.o"
+	@echo "... src/Bernstein.i"
+	@echo "... src/Bernstein.s"
 	@echo "... src/camera_controller.o"
 	@echo "... src/camera_controller.i"
 	@echo "... src/camera_controller.s"

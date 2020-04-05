@@ -2,13 +2,14 @@
 #define CURVE_HPP
 
 #include "object3d.hpp"
+#include "Bernstein.hpp"
 #include <vecmath.h>
 #include <vector>
 #include <utility>
 
 #include <algorithm>
 
-// TODO (PA3): Implement Bernstein class to compute spline basis function.
+// Already Done (PA3): Implement Bernstein class to compute spline basis function.
 //       You may refer to the python-script for implementation.
 
 // The CurvePoint object stores information about a point on a curve
@@ -17,6 +18,7 @@
 struct CurvePoint {
     Vector3f V; // Vertex
     Vector3f T; // Tangent  (unit)
+    CurvePoint(Vector3f v, Vector3f t) : V(v), T(t) {}
 };
 
 class Curve : public Object3D {
@@ -68,7 +70,28 @@ public:
 
     void discretize(int resolution, std::vector<CurvePoint>& data) override {
         data.clear();
-        // TODO (PA3): fill in data vector
+        // AlreadyDone (PA3): fill in data vector
+        float* knot = Bernstein::bezier_knot(3);
+        auto b = Bernstein(controls.size() - 1, 3, knot, 8);
+        auto t_range = b.get_valid_range();
+        auto t_num = b.get_range_point_num();
+
+        for (int i = 0; i <= t_num * resolution; i++) {
+            float t = t_range.first * (1.0f - i / ((float) t_num * resolution)) + t_range.second * 1.0f * i / ((float) t_num * resolution);
+            // std::cout << "t: " << t << std::endl;
+            auto basis = b.evaluate(t);
+            Vector3f vertex = Vector3f::ZERO, tangent = Vector3f::ZERO;
+            int j = 0;
+            for (auto point : getControls()) {
+                vertex += basis.first[j] * point;
+                tangent += basis.second[j] * point;
+                j++;
+            }
+            data.push_back(CurvePoint(vertex, tangent));
+            // std::cout << "(" << vertex.x() << ", " << vertex.y() << ", " << vertex.z() << ")\n";
+            delete[] basis.first;
+            delete[] basis.second;
+        }
     }
 
 protected:
@@ -86,7 +109,28 @@ public:
 
     void discretize(int resolution, std::vector<CurvePoint>& data) override {
         data.clear();
-        // TODO (PA3): fill in data vector
+        // AlreadyDone (PA3): fill in data vector
+        float* knot = Bernstein::bspline_knot(controls.size() - 1, 3);
+        auto b = Bernstein(controls.size() - 1, 3, knot, controls.size() + 1 + 3);
+        auto t_range = b.get_valid_range();
+        auto t_num = b.get_range_point_num();
+
+        for (int i = 0; i <= t_num * resolution; i++) {
+            float t = (t_range.first + EPS) * (1.0f - i / ((float) t_num * resolution)) + t_range.second * 1.0f * i / ((float) t_num * resolution);
+            // std::cout << "t: " << t << std::endl;
+            auto basis = b.evaluate(t);
+            Vector3f vertex = Vector3f::ZERO, tangent = Vector3f::ZERO;
+            int j = 0;
+            for (auto point : getControls()) {
+                vertex += basis.first[j] * point;
+                tangent += basis.second[j] * point;
+                j++;
+            }
+            data.push_back(CurvePoint(vertex, tangent));
+            // std::cout << "(" << vertex.x() << ", " << vertex.y() << ", " << vertex.z() << ")\n";
+            delete[] basis.first;
+            delete[] basis.second;
+        }
     }
 
 protected:

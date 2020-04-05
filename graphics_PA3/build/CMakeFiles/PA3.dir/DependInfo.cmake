@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/ubuntu/graphics/graphics_PA3/src/Bernstein.cpp" "/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles/PA3.dir/src/Bernstein.cpp.o"
   "/home/ubuntu/graphics/graphics_PA3/src/camera_controller.cpp" "/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles/PA3.dir/src/camera_controller.cpp.o"
   "/home/ubuntu/graphics/graphics_PA3/src/image.cpp" "/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles/PA3.dir/src/image.cpp.o"
   "/home/ubuntu/graphics/graphics_PA3/src/main.cpp" "/home/ubuntu/graphics/graphics_PA3/build/CMakeFiles/PA3.dir/src/main.cpp.o"

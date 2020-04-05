@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/PA3.dir/src/Bernstein.cpp.o"
   "CMakeFiles/PA3.dir/src/image.cpp.o"
   "CMakeFiles/PA3.dir/src/main.cpp.o"
   "CMakeFiles/PA3.dir/src/mesh.cpp.o"
