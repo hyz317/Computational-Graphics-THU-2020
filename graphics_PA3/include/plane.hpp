@@ -5,7 +5,7 @@
 #include <vecmath.h>
 #include <cmath>
 
-// TODO (PA2): Copy from PA1
+// AlreadyDone (PA2): Copy from PA1
 
 class Plane : public Object3D {
 public:
@@ -13,14 +13,22 @@ public:
 
     }
 
-    Plane(const Vector3f &normal, float d, Material *m) : Object3D(m) {
-
+    Plane(const Vector3f &norm, float d, Material *m) : Object3D(m) {
+        this->norm = norm;
+        this->d = d;
     }
 
     ~Plane() override = default;
 
     bool intersect(const Ray &r, Hit &h, float tmin) override {
-        return false;
+        if (fabs(Vector3f::dot(r.getDirection(), norm)) < 1e-6) return false;
+        float t = (d - Vector3f::dot(norm, r.getOrigin())) / Vector3f::dot(norm, r.getDirection());
+
+        if (t < tmin) return false;
+        if (t > h.getT()) return false;
+
+        h.set(t, material, norm);
+        return true;
     }
 
     void drawGL() override {
