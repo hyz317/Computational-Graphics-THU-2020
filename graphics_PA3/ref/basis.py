@@ -46,6 +46,7 @@ class Bernstein:
 
     def evaluate(self, mu):
         bpos = self.get_bpos(mu)
+        print(mu)
         s = np.zeros(self.k + 2)
         s[-2] = 1
         ds = np.ones(self.k + 1)
@@ -67,10 +68,12 @@ class Bernstein:
                 if p == self.k:
                     ds[ii] = (dw1 * s[ii] + dw2 * s[ii + 1]) * p
                 s[ii] = w1 * s[ii] + w2 * s[ii + 1]
+                # print("p: {0}, ii: {1}, s: {2}".format(p, ii, s))
 
         s = s[:-1]
         lsk = bpos - self.k
         rsk = self.n - bpos - 1
+        # print("lsk: {0}, rsk: {1}, bpos: {2}".format(lsk, rsk, bpos))
         if lsk < 0:
             s = s[-lsk:]
             ds = ds[-lsk:]
@@ -125,6 +128,8 @@ if __name__ == '__main__':
 
     plt.figure()
     for l in lines:
+        # print(t_range)
+        # print(l)
         plt.plot(t_range, l)
     plt.grid()
     plt.title('Basis function for ' + description)
