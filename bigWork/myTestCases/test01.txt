@@ -4,8 +4,8 @@ PerspectiveCamera {
     direction 0 0 -1
     up 0 1 0
     angle 30
-    width 200
-    height 200
+    width 400
+    height 400
 }
 
 Lights {
@@ -35,24 +35,25 @@ Materials {
         diffuseColor 0 1 0
         specularColor 1 1 1
         shininess 20
-        diff_factor 0.45
-        spec_factor 0.20
+        diff_factor 0.00
+        spec_factor 0.90
         refr_factor 0.20
     }
 }
 
 Group {
     numObjects 6
-    MaterialIndex 0
+    MaterialIndex 4
     Sphere {
 	center 0 0 0
-        radius 1 
+        radius 0.6
     }
     MaterialIndex 1
     Sphere {
 	center 1 1 1 
         radius 0.75
     }
+    MaterialIndex 0
     Sphere {
 	center -1 -1 1 
         radius 0.75
@@ -71,5 +72,6 @@ Group {
 	normal 0 1 0
         offset -2
     }
+    
 }
 

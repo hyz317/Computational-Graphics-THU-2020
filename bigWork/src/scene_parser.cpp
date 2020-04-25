@@ -266,7 +266,7 @@ Material *SceneParser::parseMaterial() {
             break;
         }
     }
-    auto *answer = new Material(diffuseColor, specularColor, shininess);
+    auto *answer = new Material(diffuseColor, specularColor, shininess, diff_factor, spec_factor, refr_factor);
     return answer;
 }
 

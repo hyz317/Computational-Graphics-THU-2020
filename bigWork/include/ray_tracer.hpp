@@ -8,20 +8,21 @@
 #include "light.hpp"
 #include <vecmath.h>
 
+#define EPS 1e-6
 
 class RayTracer
 {
 public:
-    RayTracer(int d, Group* g, std::vector<Light*>& l, Vector3f c = Vector3f::ZERO, float tm = 1e-8) : depth(d), group(g), lights(l), bkgcolor(c), tmin(tm) {}
+    RayTracer(int d, Group* g, std::vector<Light*>& l, Vector3f c = Vector3f::ZERO, float tm = 1e-4) : max_depth(d), group(g), lights(l), bkgcolor(c), tmin(tm) {}
     ~RayTracer() {}
 
-    Vector3f trace(Ray ray);
-    Vector3f calcDiffusion(Ray ray);
-    Vector3f calcReflection(Ray ray);
-    Vector3f calcRefraction(Ray ray);
+    Vector3f trace(Ray ray, int depth = 1);
+    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth);
+    Vector3f calcReflection(Ray ray, Hit& hit, int depth);
+    Vector3f calcRefraction(Ray ray, Hit& hit, int depth);
 
 private:
-    int depth;
+    int max_depth;
     float tmin;
     Group* group;
     Vector3f bkgcolor;

@@ -37,6 +37,7 @@ public:
 
     void addObject(int index, Object3D *obj) {
         objects[index] = obj;
+        // std::cout << obj->material->diff_factor << ' ' << obj->material->spec_factor << ' ' << obj->material->refr_factor << std::endl;
     }
 
     int getGroupSize() {

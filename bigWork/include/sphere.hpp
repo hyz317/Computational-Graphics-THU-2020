@@ -21,66 +21,33 @@ public:
     ~Sphere() override = default;
 
     bool intersect(const Ray &r, Hit &h, float tmin) override {
-        //
-        Vector3f normal = Vector3f::cross(r.getDirection(), center - r.getOrigin());
-        Vector3f vertical = Vector3f::cross(normal, r.getDirection()).normalized();
-        
-        float len1 = ( ( r.getOrigin().x() * r.getDirection().y() / r.getDirection().x() - r.getOrigin().y()) - 
-                       ( center.x()        * r.getDirection().y() / r.getDirection().x() - center.y()) )
-                     / ( vertical.x()      * r.getDirection().y() / r.getDirection().x() - vertical.y());
-        float len2 = ( center.x() - r.getOrigin().x() + len1 * vertical.x() ) / r.getDirection().x();
 
-        if (r.getOrigin().x() == r.getOrigin().y()) {
-            if (fabs(r.getDirection().y()) > 1e-6) {
-                len1 = ( ( r.getOrigin().y() * r.getDirection().z() / r.getDirection().y() - r.getOrigin().z()) - 
-                       ( center.y()        * r.getDirection().z() / r.getDirection().y() - center.z()) )
-                     / ( vertical.y()      * r.getDirection().z() / r.getDirection().y() - vertical.z());
-                len2 = ( center.y() - r.getOrigin().y() + len1 * vertical.y() ) / r.getDirection().y();
-            }
-            else if (fabs(r.getDirection().x()) > 1e-6) {
-                len1 = ( ( r.getOrigin().x() * r.getDirection().z() / r.getDirection().x() - r.getOrigin().z()) - 
-                       ( center.x()        * r.getDirection().z() / r.getDirection().x() - center.z()) )
-                     / ( vertical.x()      * r.getDirection().z() / r.getDirection().x() - vertical.z());
-                len2 = ( center.x() - r.getOrigin().x() + len1 * vertical.x() ) / r.getDirection().x();
+        Vector3f p = r.getOrigin() - center;
+        float b = Vector3f::dot(p, r.getDirection()) * -1.0;
+        float det = b * b - p.length() * p.length() + radius * radius;
+        float t;
+        bool front;
+
+        if (det > 1e-4) {
+            det = sqrt(det);
+            float x1 = b - det, x2 = b + det;
+            if (x2 < 1e-4) return false;
+            if (x1 > 1e-4) {
+                t = x1;
+                front = true;
             }
             else {
-                if (fabs(vertical.x()) > 1e-6) {
-                    len1 = -center.x() / vertical.x();
-                    len2 = ( center.z() - r.getOrigin().z() + len1 * vertical.z() ) / r.getDirection().z();
-                }
-                else {
-                    len1 = 0.0f;
-                    len2 = ( center.z() - r.getOrigin().z() ) / r.getDirection().z();
-                    vertical = Vector3f::ZERO;
-                }
+                t = x2;
+                front = false;
             }
         }
+        else {
+            return false;
+        }
 
-        
-
-        float len_CH = (len1 * vertical).length();
-
-        
-
-        if (len_CH > radius) return false;
-
-        float len_OH = (len2 * r.getDirection()).length();
-        float t = len_OH - sqrt(pow(radius, 2) - pow(len_CH, 2));
-
-        if (t < tmin) return false;
-        if (t > h.getT()) return false;
-
-        Vector3f normal_P = (r.getOrigin() + t * r.getDirection().normalized() - center).normalized();
+        Vector3f normal_P = (r.getOrigin() + r.getDirection() * t - center).normalized();
+        if (!front) normal_P = -normal_P;
         h.set(t, material, normal_P);
-
-        /*if(r.getDirection().y() < 1e-6 && r.getDirection().y() > -1e-6 && r.getDirection().x() < 1e-6 && r.getDirection().x() > -1e-6) {
-            std::cout<<"len_1: "<<len1<<std::endl;
-            std::cout <<" vertical: ("<<vertical.x()<<", "<<vertical.y()<<", "<<vertical.z()<<")"<<endl;
-            std::cout <<" center: ("<<center.x()<<", "<<center.y()<<", "<<center.z()<<")"<<endl;
-            std::cout <<" rayDir: ("<<r.getDirection().x()<<", "<<r.getDirection().y()<<", "<<r.getDirection().z()<<")"<<endl;
-            std::cout <<" Origin: ("<<r.getOrigin().x()<<", "<<r.getOrigin().y()<<", "<<r.getOrigin().z()<<")"<<endl;
-        }*/
-
         return true;
     }
 
