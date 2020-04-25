@@ -49,9 +49,9 @@ public:
 
     Ray generateRay(const Vector2f &point) override {
         // 
-        int x = point.x();
-        int y = point.y();
-        Vector3f rayDir = direction + (tan(angle / 2.0) * (x - width / 2) / width * 2 * horizontal) + (tan(angle / 2.0) * (y - height / 2) / height * 2 * up);
+        float x = point.x();
+        float y = point.y();
+        Vector3f rayDir = direction + (tan(angle / 2.0f) * (x - width / 2.0f) / width * 2.0f * horizontal) + (tan(angle / 2.0f) * (y - height / 2.0f) / height * 2.0f * up);
         return Ray(center, rayDir.normalized());
     }
 

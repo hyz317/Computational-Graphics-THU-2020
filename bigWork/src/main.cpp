@@ -41,15 +41,38 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
+    int samps = 100;
     Image img(w, h);
     float tmin = 1e-8;
+
+    cout << "path tracing ..." << endl;
+    for (int y = 0; y < h; y++) {
+        cout << "progress: " << (float) y / h << "\n";
+        for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
+            Vector3f ans(0, 0, 0);
+            for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
+                Vector3f r;
+                for (int sx = 0; sx < 2; sx++, r = Vector3f::ZERO) {
+                    for (int s = 0; s < samps; s++) {
+                        double r1 = 2 * erand48(Xi), dx = r1 < 1 ? sqrt(r1) - 1 : 1 - sqrt(2 - r1); 
+                        double r2 = 2 * erand48(Xi), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2); 
+                        Ray ray = camera->generateRay(Vector2f((sx + 0.5 + dx) / 2 + x, (sy + 0.5 + dy) / 2 + y));
+                        // Ray Tracing Todo
+                    }
+                }
+            }
+            img.SetPixel(x, y, ans);
+        }
+    }
+
+    cout << "tracing done." << endl;
+    img.SaveBMP(argv[2]);
     
+    /*
     cout << "casting ..." << endl;
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             Ray ray = camera->generateRay(Vector2f(x, y));
-            //std::cout << "x: "<<x<<" y: "<<y<<" rayDir: ("<<ray.getDirection().x()<<", "<<ray.getDirection().y()<<", "<<ray.getDirection().z()<<")"<<endl;
-            //std::cout << "x: "<<x<<" y: "<<y<<" rayDir: ("<<ray.getOrigin().x()<<", "<<ray.getOrigin().y()<<", "<<ray.getOrigin().z()<<")"<<endl;
             Hit hit;
             Vector3f ans(0, 0, 0);
             if (group->intersect(ray, hit, tmin)) {
@@ -62,19 +85,18 @@ int main(int argc, char *argv[]) {
                     light->getIllumination(p, dirToLight, lightColor);
                     ans += material->Shade(ray, hit, dirToLight, lightColor);
                 }
-                //cout << "x: "<< x <<" y: " << y << " color: (" << ans.x() << ", " << ans.y() << ", " << ans.z() << ")" << endl;
-                //ans = Vector3f(0.8, 0.8, 0.2);
             }
             else {
                 ans = parser.getBackgroundColor();
             }
-            // cout << "x: "<< x <<" y: " << y << " color: (" << ans.x() << ", " << ans.y() << ", " << ans.z() << ")" << endl;
             img.SetPixel(x, y, ans);
         }
     }
 
     cout << "casting done." << endl;
     img.SaveBMP(argv[2]);
+    */
+
 
     return 0;
 }

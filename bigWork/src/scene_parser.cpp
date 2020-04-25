@@ -241,6 +241,7 @@ Material *SceneParser::parseMaterial() {
     filename[0] = 0;
     Vector3f diffuseColor(1, 1, 1), specularColor(0, 0, 0);
     float shininess = 0;
+    float diff_factor = 1.0f, spec_factor = 0.0f, refr_factor = 0.0f;
     getToken(token);
     assert (!strcmp(token, "{"));
     while (true) {
@@ -254,6 +255,12 @@ Material *SceneParser::parseMaterial() {
         } else if (strcmp(token, "texture") == 0) {
             // Optional: read in texture and draw it.
             getToken(filename);
+        } else if (strcmp(token, "diff_factor") == 0) {
+            diff_factor = readFloat();
+        } else if (strcmp(token, "spec_factor") == 0) {
+            spec_factor = readFloat();
+        } else if (strcmp(token, "refr_factor") == 0) {
+            refr_factor = readFloat();
         } else {
             assert (!strcmp(token, "}"));
             break;
