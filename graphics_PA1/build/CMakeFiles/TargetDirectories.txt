@@ -1,6 +1,0 @@
-/home/ubuntu/graphics/graphics_PA1/build/CMakeFiles/rebuild_cache.dir
-/home/ubuntu/graphics/graphics_PA1/build/CMakeFiles/PA1.dir
-/home/ubuntu/graphics/graphics_PA1/build/CMakeFiles/edit_cache.dir
-/home/ubuntu/graphics/graphics_PA1/build/deps/vecmath/CMakeFiles/rebuild_cache.dir
-/home/ubuntu/graphics/graphics_PA1/build/deps/vecmath/CMakeFiles/vecmath.dir
-/home/ubuntu/graphics/graphics_PA1/build/deps/vecmath/CMakeFiles/edit_cache.dir
