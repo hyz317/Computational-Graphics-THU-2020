@@ -10,6 +10,7 @@
 #include "camera.hpp"
 #include "group.hpp"
 #include "light.hpp"
+#include "ray_tracer.hpp"
 
 #include <string>
 
@@ -42,12 +43,18 @@ int main(int argc, char *argv[]) {
     int w = camera->getWidth();
     int h = camera->getHeight();
     int samps = 100;
+    int depth = 8;
     Image img(w, h);
     float tmin = 1e-8;
 
+    std::vector<Light*> lights;
+    for (int i = 0; i < num_lights; i++)
+        lights.emplace_back(parser.getLight(i));
+    RayTracer tracer(depth, group, lights, parser.getBackgroundColor());
+
     cout << "path tracing ..." << endl;
     for (int y = 0; y < h; y++) {
-        cout << "progress: " << (float) y / h << "\n";
+        cout << "progress: " << (float) y / h * 100 << "%\n";
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
             Vector3f ans(0, 0, 0);
             for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
@@ -58,6 +65,7 @@ int main(int argc, char *argv[]) {
                         double r2 = 2 * erand48(Xi), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2); 
                         Ray ray = camera->generateRay(Vector2f((sx + 0.5 + dx) / 2 + x, (sy + 0.5 + dy) / 2 + y));
                         // Ray Tracing Todo
+                        ans += tracer.trace(ray) * 0.25 / samps;
                     }
                 }
             }

@@ -11,6 +11,7 @@ SET(PA1_SOURCES
         src/image.cpp
         src/main.cpp
         src/mesh.cpp
+        src/ray_tracer.cpp
         src/scene_parser.cpp)
 
 SET(PA1_INCLUDES
@@ -24,6 +25,7 @@ SET(PA1_INCLUDES
         include/object3d.hpp
         include/plane.hpp
         include/ray.hpp
+        include/ray_tracer.hpp
         include/scene_parser.hpp
         include/sphere.hpp
         include/transform.hpp

@@ -4,7 +4,8 @@
             "name": "Linux",
             "defines": [],
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/deps/vecmath/include/**"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
