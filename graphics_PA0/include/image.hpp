@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <vecmath.h>
+#include <iostream>
 
 // Simple image class
 class Image {
@@ -43,6 +44,7 @@ public:
         assert(x >= 0 && x < width);
         assert(y >= 0 && y < height);
         data[y * width + x] = color;
+        // std::cout << "setPixel! " << x << ' ' << y << '\n';
     }
 
     void FlipHorizontal() {
