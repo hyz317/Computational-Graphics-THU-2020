@@ -3,6 +3,7 @@
 
 #include <Vector3f.h>
 #include "object3d.hpp"
+#include "group.hpp"
 
 class Light {
 public:
@@ -10,7 +11,7 @@ public:
 
     virtual ~Light() = default;
 
-    virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const = 0;
+    virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group) const = 0;
 };
 
 
@@ -27,7 +28,7 @@ public:
 
     ///@param p unsed in this function
     ///@param distanceToLight not well defined because it's not a point light
-    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const override {
+    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group) const override {
         // the direction to the light is the opposite of the
         // direction of the directional light source
         dir = -direction;
@@ -52,12 +53,20 @@ public:
 
     ~PointLight() override = default;
 
-    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const override {
+    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group) const override {
         // the direction to the light is the opposite of the
         // direction of the directional light source
+
+        // 2020.4.26: judge for shadows.
         dir = (position - p);
         dir = dir / dir.length();
-        col = color;
+
+        Hit hit;
+        if (group->intersect(Ray(p, dir), hit, 1e-4) && hit.getT() < (position - p).length()) {
+            col = Vector3f::ZERO;
+        } else {
+            col = color;
+        }
     }
 
 private:

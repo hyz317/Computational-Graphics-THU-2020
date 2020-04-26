@@ -42,21 +42,23 @@ class PerspectiveCamera : public Camera {
 
 public:
     PerspectiveCamera(const Vector3f &center, const Vector3f &direction,
-            const Vector3f &up, int imgW, int imgH, float angle) : Camera(center, direction, up, imgW, imgH) {
+            const Vector3f &up, int imgW, int imgH, float w_angle, float h_angle) : Camera(center, direction, up, imgW, imgH) {
         // angle is in radian.
-        this->angle = angle;
+        this->w_angle = w_angle;
+        this->h_angle = h_angle;
     }
 
     Ray generateRay(const Vector2f &point) override {
         // 
         float x = point.x();
         float y = point.y();
-        Vector3f rayDir = direction + (tan(angle / 2.0f) * (x - width / 2.0f) / width * 2.0f * horizontal) + (tan(angle / 2.0f) * (y - height / 2.0f) / height * 2.0f * up);
+        Vector3f rayDir = direction + (tan(w_angle / 2.0f) * (x - width / 2.0f) / width * 2.0f * horizontal) + (tan(h_angle / 2.0f) * (y - height / 2.0f) / height * 2.0f * up);
         return Ray(center, rayDir.normalized());
     }
 
 protected:
-    float angle;
+    float w_angle;
+    float h_angle;
 
 };
 

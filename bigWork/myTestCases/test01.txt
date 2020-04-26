@@ -1,18 +1,19 @@
 
 PerspectiveCamera {
-    center 0 0 10
-    direction 0 0 -1
+    center 50 52 295.6
+    direction 0 -0.04 -1
     up 0 1 0
-    angle 30
-    width 400
-    height 400
+    w-angle 40
+    h-angle 30
+    width 600
+    height 450
 }
 
 Lights {
     numLights 1
     PointLight {
-        position 0.0 5 5
-        color 0.9 0.9 0.9 
+        position 50 71.33 81.6
+        color 1 1 1
     }
 }
 
@@ -21,56 +22,66 @@ Background {
 }
 
 Materials {
-    numMaterials 5
-    Material { diffuseColor 1 0 0 
-      specularColor 1 1 1
-      shininess 20
-    }
-    Material { diffuseColor 0 1 0 }
-    Material { diffuseColor 0 0 1 }
-    Material { diffuseColor 1 1 1 
-	specularColor 1 1 1
-	shininess 20 }
-    Material {
-        diffuseColor 0 1 0
-        specularColor 1 1 1
-        shininess 20
+    numMaterials 7
+    Material { diffuseColor 0.75 0.25 0.25 }
+    Material { diffuseColor 0.25 0.25 0.75 }
+    Material { diffuseColor 0.75 0.75 0.75 }
+    Material { diffuseColor 0 0 0 }
+    Material { 
+        diffuseColor 0.99 0.99 0.99
         diff_factor 0.00
-        spec_factor 0.90
-        refr_factor 0.20
+        spec_factor 1.00
+        refr_factor 0.00
     }
+    Material { 
+        diffuseColor 0.99 0.99 0.99
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.5
+    }
+    Material { diffuseColor 1 0 0 }
 }
 
 Group {
-    numObjects 6
-    MaterialIndex 4
-    Sphere {
-	center 0 0 0
-        radius 0.6
+    numObjects 8
+    MaterialIndex 0
+    Plane {
+	    normal 1 0 0
+        offset 1
     }
     MaterialIndex 1
-    Sphere {
-	center 1 1 1 
-        radius 0.75
-    }
-    MaterialIndex 0
-    Sphere {
-	center -1 -1 1 
-        radius 0.75
+    Plane {
+	    normal -1 0 0
+        offset -99
     }
     MaterialIndex 2
-    Sphere {
-	center -1 1 -1 
-        radius 0.75
+    Plane {
+	    normal 0 0 1
+        offset 0
     }
-    Sphere {
-	center 1 -1 -1 
-        radius 0.75 
+    Plane {
+	    normal 0 1 0
+        offset 0
+    }
+    Plane {
+	    normal 0 -1 0
+        offset -81.6
     }
     MaterialIndex 3
     Plane {
-	normal 0 1 0
-        offset -2
+        normal 0 0 -1
+        offset -300
+    }
+    MaterialIndex 4
+    Sphere {
+	    center 27 16.5 47 
+        radius 16.5
+    }
+    MaterialIndex 5
+    Sphere {
+	    center 73 16.5 78
+        radius 16.5
     }
     
 }

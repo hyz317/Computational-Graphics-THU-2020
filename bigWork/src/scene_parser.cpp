@@ -114,9 +114,13 @@ void SceneParser::parsePerspectiveCamera() {
     assert (!strcmp(token, "up"));
     Vector3f up = readVector3f();
     getToken(token);
-    assert (!strcmp(token, "angle"));
-    float angle_degrees = readFloat();
-    float angle_radians = DegreesToRadians(angle_degrees);
+    assert (!strcmp(token, "w-angle"));
+    float w_angle_degrees = readFloat();
+    float w_angle_radians = DegreesToRadians(w_angle_degrees);
+    getToken(token);
+    assert (!strcmp(token, "h-angle"));
+    float h_angle_degrees = readFloat();
+    float h_angle_radians = DegreesToRadians(h_angle_degrees);
     getToken(token);
     assert (!strcmp(token, "width"));
     int width = readInt();
@@ -125,7 +129,7 @@ void SceneParser::parsePerspectiveCamera() {
     int height = readInt();
     getToken(token);
     assert (!strcmp(token, "}"));
-    camera = new PerspectiveCamera(center, direction, up, width, height, angle_radians);
+    camera = new PerspectiveCamera(center, direction, up, width, height, w_angle_radians, h_angle_radians);
 }
 
 void SceneParser::parseBackground() {
@@ -239,9 +243,9 @@ Material *SceneParser::parseMaterial() {
     char token[MAX_PARSER_TOKEN_LENGTH];
     char filename[MAX_PARSER_TOKEN_LENGTH];
     filename[0] = 0;
-    Vector3f diffuseColor(1, 1, 1), specularColor(0, 0, 0);
+    Vector3f diffuseColor(1, 1, 1), specularColor(0, 0, 0), absorbColor(0, 0, 0);
     float shininess = 0;
-    float diff_factor = 1.0f, spec_factor = 0.0f, refr_factor = 0.0f;
+    float diff_factor = 1.0f, spec_factor = 0.0f, refr_factor = 0.0f, n = 1.5f;
     getToken(token);
     assert (!strcmp(token, "{"));
     while (true) {
@@ -261,12 +265,16 @@ Material *SceneParser::parseMaterial() {
             spec_factor = readFloat();
         } else if (strcmp(token, "refr_factor") == 0) {
             refr_factor = readFloat();
+        } else if (strcmp(token, "n") == 0) {
+            n = readFloat();
+        } else if (strcmp(token, "absorbColor") == 0) {
+            absorbColor = readVector3f();
         } else {
             assert (!strcmp(token, "}"));
             break;
         }
     }
-    auto *answer = new Material(diffuseColor, specularColor, shininess, diff_factor, spec_factor, refr_factor);
+    auto *answer = new Material(diffuseColor, specularColor, absorbColor, shininess, diff_factor, spec_factor, refr_factor, n);
     return answer;
 }
 
