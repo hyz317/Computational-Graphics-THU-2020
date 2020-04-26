@@ -42,10 +42,10 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 300;
+    int samps = 100;
     int depth = 8;
     Image img(w, h);
-    float tmin = 1e-4;
+    float tmin = 5e-4;
 
     std::vector<Light*> lights;
     for (int i = 0; i < num_lights; i++)

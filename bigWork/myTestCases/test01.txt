@@ -5,8 +5,8 @@ PerspectiveCamera {
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 600
-    height 450
+    width 400
+    height 300
 }
 
 Lights {
@@ -23,14 +23,14 @@ Background {
 
 Materials {
     numMaterials 7
-    Material { diffuseColor 0.75 0.25 0.25 }
-    Material { diffuseColor 0.25 0.25 0.75 }
+    Material { diffuseColor 0.75 0.40 0.40 }
+    Material { diffuseColor 0.40 0.40 0.75 }
     Material { diffuseColor 0.75 0.75 0.75 }
     Material { diffuseColor 0 0 0 }
     Material { 
-        diffuseColor 0.99 0.99 0.99
-        diff_factor 0.00
-        spec_factor 1.00
+        diffuseColor 0.5 0.5 0.5
+        diff_factor 0.30
+        spec_factor 0.70
         refr_factor 0.00
     }
     Material { 
@@ -38,7 +38,7 @@ Materials {
         diff_factor 0.00
         spec_factor 0.00
         refr_factor 1.00
-        n 1.5
+        n 2.0
     }
     Material { diffuseColor 1 0 0 }
 }

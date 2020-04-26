@@ -18,6 +18,7 @@ cd ..
 mkdir -p output
 bin/PA1 myTestCases/test01.txt output/test01.bmp
 bin/PA1 myTestCases/test02.txt output/test02.bmp
+# bin/PA1 myTestCases/test03.txt output/test03.bmp
 # bin/PA1 testcases/scene01_basic.txt output/scene01.bmp
 # bin/PA1 testcases/scene02_cube.txt output/scene02.bmp
 # bin/PA1 testcases/scene03_sphere.txt output/scene03.bmp
