@@ -13,9 +13,9 @@ Lights {
     numLights 1
     AreaLight {
         position 50 81.33 81.6
-        x_axis 30 0 0
-        y_axis 0 0 30
-        color 1 1 1
+        x_axis 20 0 0
+        y_axis 0 0 20
+        color 9 9 9
     }
 }
 

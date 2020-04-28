@@ -17,7 +17,8 @@ public:
     ~RayTracer() {}
 
     Vector3f trace(Ray ray, unsigned short Xi[], int depth = 1);
-    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
+    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[]); // Phong model
+    Vector3f calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
     Vector3f calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
     Vector3f calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
 

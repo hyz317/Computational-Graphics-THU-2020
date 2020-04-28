@@ -15,6 +15,24 @@ Vector3f RayTracer::calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short X
     return ans;
 }
 
+Vector3f RayTracer::calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[])
+{
+    float r1 = 2 * M_PI * erand48(Xi), r2 = erand48(Xi), r2s = sqrt(r2);  
+    Vector3f w = hit.getNormal();
+    Vector3f u = Vector3f::cross(fabs(w.x()) > 0.1 ? Vector3f(0, 1, 0) : Vector3f(1, 0, 0), w).normalized();
+    Vector3f v = Vector3f::cross(w, u);
+    Vector3f d = (u * cos(r1) * r2s + v * sin(r1) * r2s + w * sqrt(1 - r2)).normalized();
+
+    Vector3f tra = trace(Ray(ray.pointAtParameter(hit.getT()), d), Xi, depth + 1);
+    Vector3f ans = hit.getMaterial()->getDiffuseColor() * tra;
+    /*if (ans.length() > 5e-4)
+    std::cout << "color: " << ans.x() << ' ' << ans.y() << ' ' << ans.z() << ' '
+              << "hit pos: " << ray.pointAtParameter(hit.getT()).x() << ' ' << ray.pointAtParameter(hit.getT()).y() << ' ' << ray.pointAtParameter(hit.getT()).z() << ' ' 
+              << "dir: " << d.x() << ' ' << d.y() << ' ' << d.z() << ' ' 
+              << "depth: " << depth << std::endl;*/
+    return ans;
+}
+
 Vector3f RayTracer::calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[])
 {
     // TODO: diffuse reflection
@@ -71,11 +89,12 @@ Vector3f RayTracer::trace(Ray ray, unsigned short Xi[], int depth)
     // if (res2 && (!res1 || light_dis < hit.getT())) std::cout << light_dis << ' ' << hit.getT() << "\n";
 
     if (res2 && (!res1 || light_dis < hit.getT())) {
+        // if (depth > 2) std::cout << "ohhhh\n";
         return light_color;
 
     } else if (res1) {
         Material* material = hit.getMaterial();
-        if (material->diff_factor > EPS) ans += calcDiffusion(ray, hit, depth, Xi);
+        if (material->diff_factor > EPS) ans += calcRandomDiffusion(ray, hit, depth, Xi);
         if (material->spec_factor > EPS) ans += calcReflection(ray, hit, depth, Xi);
         if (material->refr_factor > EPS) ans += calcRefraction(ray, hit, depth, Xi);
 
