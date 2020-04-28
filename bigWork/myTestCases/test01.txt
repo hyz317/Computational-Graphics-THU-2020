@@ -5,14 +5,16 @@ PerspectiveCamera {
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 400
-    height 300
+    width 200
+    height 150
 }
 
 Lights {
     numLights 1
-    PointLight {
-        position 50 71.33 81.6
+    AreaLight {
+        position 50 81.33 81.6
+        x_axis 30 0 0
+        y_axis 0 0 30
         color 1 1 1
     }
 }
@@ -44,7 +46,7 @@ Materials {
 }
 
 Group {
-    numObjects 8
+    numObjects 9
     MaterialIndex 0
     Plane {
 	    normal 1 0 0
@@ -82,6 +84,11 @@ Group {
     Sphere {
 	    center 73 16.5 78
         radius 16.5
+    }
+    MaterialIndex 3
+    Sphere {
+	    center 45.1797 0 121.818
+        radius 0
     }
     
 }

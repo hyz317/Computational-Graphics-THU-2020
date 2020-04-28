@@ -42,8 +42,8 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 100;
-    int depth = 8;
+    int samps = 50;
+    int depth = 10;
     Image img(w, h);
     float tmin = 5e-4;
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
                         double r2 = 2 * erand48(Xi), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2); 
                         Ray ray = camera->generateRay(Vector2f((sx + 0.5 + dx) / 2 + x, (sy + 0.5 + dy) / 2 + y));
                         // Ray Tracing Todo
-                        ans += tracer.trace(ray) * 0.25 / samps;
+                        ans += tracer.trace(ray, Xi) * 0.25 / samps;
                     }
                 }
             }

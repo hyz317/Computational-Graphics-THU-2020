@@ -16,10 +16,12 @@ public:
     RayTracer(int d, Group* g, std::vector<Light*>& l, Vector3f c = Vector3f::ZERO, float tm = 5e-4) : max_depth(d), group(g), lights(l), bkgcolor(c), tmin(tm) {}
     ~RayTracer() {}
 
-    Vector3f trace(Ray ray, int depth = 1);
-    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth);
-    Vector3f calcReflection(Ray ray, Hit& hit, int depth);
-    Vector3f calcRefraction(Ray ray, Hit& hit, int depth);
+    Vector3f trace(Ray ray, unsigned short Xi[], int depth = 1);
+    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
+    Vector3f calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
+    Vector3f calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
+
+    bool intersectLight(Ray ray, float& dis, Vector3f& color);
 
 private:
     int max_depth;

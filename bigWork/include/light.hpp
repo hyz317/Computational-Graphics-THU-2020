@@ -11,7 +11,9 @@ public:
 
     virtual ~Light() = default;
 
-    virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group) const = 0;
+    virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const = 0;
+    virtual bool intersect(Ray ray, float& dis, Vector3f& c) { return false; }
+    virtual Vector3f getColor() { return Vector3f::ZERO; }
 };
 
 
@@ -28,12 +30,14 @@ public:
 
     ///@param p unsed in this function
     ///@param distanceToLight not well defined because it's not a point light
-    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group) const override {
+    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const override {
         // the direction to the light is the opposite of the
         // direction of the directional light source
         dir = -direction;
         col = color;
     }
+
+    bool intersect(Ray ray, float& dis, Vector3f& c) { return false; }
 
 private:
 
@@ -53,7 +57,7 @@ public:
 
     ~PointLight() override = default;
 
-    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group) const override {
+    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const override {
         // the direction to the light is the opposite of the
         // direction of the directional light source
 
@@ -62,18 +66,82 @@ public:
         dir = dir / dir.length();
 
         Hit hit;
-        if (group->intersect(Ray(p, dir), hit, 1e-4) && hit.getT() < (position - p).length()) {
+        if (group->intersect(Ray(p, dir), hit, 5e-4) && hit.getT() < (position - p).length()) {
             col = Vector3f::ZERO;
         } else {
             col = color;
         }
     }
 
+    bool intersect(Ray ray, float& dis, Vector3f& c) { return false; }
+
 private:
 
     Vector3f position;
     Vector3f color;
 
+};
+
+class AreaLight : public Light {
+public:
+    AreaLight() = delete;
+    ~AreaLight() override = default;
+
+    AreaLight(const Vector3f& p, const Vector3f& x, const Vector3f& y, const Vector3f& c) : 
+        position(p), x_axis(x), y_axis(y), color(c) {}
+
+    void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const override {
+        int shade = 0;
+        dir = (position - p);
+        dir = dir / dir.length();
+
+        for (int i = -2; i < 2; i++) {
+            for (int j = -2; j < 2; j++) {
+                for (int k = 0; k < sampling_factor; k++) {
+                    Vector3f v = position - p + x_axis * ((erand48(Xi) + i) / 2) + y_axis * ((erand48(Xi) + j) / 2);
+                    float dis = v.length();
+                    // std::cout << dis << ' ' << (position - p).length() << std::endl;
+
+                    Hit hit;
+                    if (group->intersect(Ray(p, v.normalized()), hit, 5e-4) && hit.getT() < dis) {
+                        shade++;
+                    }
+                }
+            }
+        }
+        // std::cout << x_axis.x() << ' ' << x_axis.y() << ' ' << x_axis.z() << std::endl;
+        // if (shade != 48 && shade != 0) std::cout << shade << "\n";
+        col = color * (1 - (float) shade / (16.0f * sampling_factor));
+        // if ((1 - (float) shade / (16.0f * sampling_factor)) > 0.5f) std::cout << "factor" << (1 - (float) shade / (16.0f * sampling_factor)) << "\n";
+    }
+
+    bool intersect(Ray ray, float& dis, Vector3f& c) { 
+        Vector3f n = Vector3f::cross(x_axis, y_axis).normalized();
+        float d = Vector3f::dot(n, ray.getDirection());
+        if (fabs(d) < 5e-4) return false;
+        float l = Vector3f::dot(n * Vector3f::dot(position, n) - ray.getOrigin(), n) / d;
+        if (l < 5e-4) return false;
+
+        Vector3f v = ray.getOrigin() + ray.getDirection() * l - position;
+        if (fabs(Vector3f::dot(x_axis, v)) > Vector3f::dot(x_axis, x_axis)) return false;
+        if (fabs(Vector3f::dot(y_axis, v)) > Vector3f::dot(y_axis, y_axis)) return false;
+
+        dis = l;
+        c = color;
+        // std::cout << "l: " << l << std::endl;
+        // std::cout << "c: " << (v + position).x() << ' ' << (v + position).y() << ' ' << (v + position).z() << "\n";
+        // std::cout << "v: " << (v).x() << ' ' << (v).y() << ' ' << (v).z() << "\n";
+        return true;
+    }
+
+    Vector3f getColor() { return color; }
+
+
+private:
+    Vector3f position;
+    Vector3f x_axis;
+    Vector3f y_axis;
+    Vector3f color;
 };
 
 #endif // LIGHT_H
