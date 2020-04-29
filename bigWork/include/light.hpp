@@ -66,7 +66,7 @@ public:
         dir = dir / dir.length();
 
         Hit hit;
-        if (group->intersect(Ray(p, dir), hit, 5e-4) && hit.getT() < (position - p).length()) {
+        if (group->intersect(Ray(p, dir), hit, 1e-3) && hit.getT() < (position - p).length()) {
             col = Vector3f::ZERO;
         } else {
             col = color;
@@ -87,8 +87,8 @@ public:
     AreaLight() = delete;
     ~AreaLight() override = default;
 
-    AreaLight(const Vector3f& p, const Vector3f& x, const Vector3f& y, const Vector3f& c) : 
-        position(p), x_axis(x), y_axis(y), color(c) {}
+    AreaLight(const Vector3f& p, const Vector3f& x, const Vector3f& y, const Vector3f& c, float e) : 
+        position(p), x_axis(x), y_axis(y), color(c), emission(e) {}
 
     void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const override {
         int shade = 0;
@@ -103,7 +103,7 @@ public:
                     // std::cout << dis << ' ' << (position - p).length() << std::endl;
 
                     Hit hit;
-                    if (group->intersect(Ray(p, v.normalized()), hit, 5e-4) && hit.getT() < dis) {
+                    if (group->intersect(Ray(p, v.normalized()), hit, 1e-3) && hit.getT() < dis) {
                         shade++;
                     }
                 }
@@ -118,16 +118,16 @@ public:
     bool intersect(Ray ray, float& dis, Vector3f& c) { 
         Vector3f n = Vector3f::cross(x_axis, y_axis).normalized();
         float d = Vector3f::dot(n, ray.getDirection());
-        if (fabs(d) < 5e-4) return false;
+        if (fabs(d) < 1e-3) return false;
         float l = Vector3f::dot(n * Vector3f::dot(position, n) - ray.getOrigin(), n) / d;
-        if (l < 5e-4) return false;
+        if (l < 1e-3) return false;
 
         Vector3f v = ray.getOrigin() + ray.getDirection() * l - position;
         if (fabs(Vector3f::dot(x_axis, v)) > Vector3f::dot(x_axis, x_axis)) return false;
         if (fabs(Vector3f::dot(y_axis, v)) > Vector3f::dot(y_axis, y_axis)) return false;
 
         dis = l;
-        c = color;
+        c = color * emission;
         // std::cout << "l: " << l << std::endl;
         // std::cout << "c: " << (v + position).x() << ' ' << (v + position).y() << ' ' << (v + position).z() << "\n";
         // std::cout << "v: " << (v).x() << ' ' << (v).y() << ' ' << (v).z() << "\n";
@@ -142,6 +142,7 @@ private:
     Vector3f x_axis;
     Vector3f y_axis;
     Vector3f color;
+    float emission;
 };
 
 #endif // LIGHT_H

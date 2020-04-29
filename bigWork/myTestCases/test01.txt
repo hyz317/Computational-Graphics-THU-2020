@@ -5,17 +5,18 @@ PerspectiveCamera {
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 200
-    height 150
+    width 60
+    height 45
 }
 
 Lights {
     numLights 1
     AreaLight {
-        position 50 81.33 81.6
-        x_axis 20 0 0
-        y_axis 0 0 20
-        color 9 9 9
+        position 50 81.33 81.33
+        x_axis 18 0 0
+        y_axis 0 0 18
+        color 1 1 1
+        emission 12
     }
 }
 
@@ -30,9 +31,9 @@ Materials {
     Material { diffuseColor 0.75 0.75 0.75 }
     Material { diffuseColor 0 0 0 }
     Material { 
-        diffuseColor 0.5 0.5 0.5
-        diff_factor 0.30
-        spec_factor 0.70
+        diffuseColor 0.99 0.99 0.99
+        diff_factor 0.00
+        spec_factor 1.00
         refr_factor 0.00
     }
     Material { 

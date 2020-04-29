@@ -196,7 +196,7 @@ Quat4f Quat4f::log() const
 			m_elements[ 3 ] * m_elements[ 3 ]
 		);
 
-	if( len < 1e-6 )
+	if( len < 1e-3 )
 	{
 		return Quat4f( 0, m_elements[ 1 ], m_elements[ 2 ], m_elements[ 3 ] );
 	}
@@ -217,7 +217,7 @@ Quat4f Quat4f::exp() const
 			m_elements[ 3 ] * m_elements[ 3 ]
 		);
 
-	if( theta < 1e-6 )
+	if( theta < 1e-3 )
 	{
 		return Quat4f( cos( theta ), m_elements[ 1 ], m_elements[ 2 ], m_elements[ 3 ] );
 	}
@@ -376,7 +376,7 @@ Quat4f Quat4f::fromRotationMatrix( const Matrix3f& m )
 	// Compute one plus the trace of the matrix
 	float onePlusTrace = 1.0f + m( 0, 0 ) + m( 1, 1 ) + m( 2, 2 );
 
-	if( onePlusTrace > 1e-5 )
+	if( onePlusTrace > 1e-3 )
 	{
 		// Direct computation
 		float s = sqrt( onePlusTrace ) * 2.0f;

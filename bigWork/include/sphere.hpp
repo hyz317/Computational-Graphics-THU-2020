@@ -28,11 +28,11 @@ public:
         float t;
         bool front;
 
-        if (det > 5e-4) {
+        if (det > 1e-3) {
             det = sqrt(det);
             float x1 = b - det, x2 = b + det;
-            if (x2 < 5e-4) return false;
-            if (x1 > 5e-4) {
+            if (x2 < 1e-3) return false;
+            if (x1 > 1e-3) {
                 t = x1;
                 front = true;
             }

@@ -25,7 +25,7 @@ Vector3f RayTracer::calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned s
 
     Vector3f tra = trace(Ray(ray.pointAtParameter(hit.getT()), d), Xi, depth + 1);
     Vector3f ans = hit.getMaterial()->getDiffuseColor() * tra;
-    /*if (ans.length() > 5e-4)
+    /*if (ans.length() > 1e-3)
     std::cout << "color: " << ans.x() << ' ' << ans.y() << ' ' << ans.z() << ' '
               << "hit pos: " << ray.pointAtParameter(hit.getT()).x() << ' ' << ray.pointAtParameter(hit.getT()).y() << ' ' << ray.pointAtParameter(hit.getT()).z() << ' ' 
               << "dir: " << d.x() << ' ' << d.y() << ' ' << d.z() << ' ' 

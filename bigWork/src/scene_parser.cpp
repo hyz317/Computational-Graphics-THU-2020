@@ -229,8 +229,11 @@ Light *SceneParser::parseAreaLight() {
     assert (!strcmp(token, "color"));
     Vector3f color = readVector3f();
     getToken(token);
+    assert (!strcmp(token, "emission"));
+    float emission = readFloat();
+    getToken(token);
     assert (!strcmp(token, "}"));
-    return new AreaLight(position, x_axis, y_axis, color);
+    return new AreaLight(position, x_axis, y_axis, color, emission);
 }
 // ====================================================================
 // ====================================================================

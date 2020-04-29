@@ -42,19 +42,22 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 500;
+    int samps = 5000;
     int depth = 10;
     Image img(w, h);
-    float tmin = 5e-4;
+    float tmin = 1e-3;
 
     std::vector<Light*> lights;
     for (int i = 0; i < num_lights; i++)
         lights.emplace_back(parser.getLight(i));
     RayTracer tracer(depth, group, lights, parser.getBackgroundColor());
 
-    cout << "path tracing ..." << endl;
+    int multiThreadCounter = 0;
+
+    cout << "path tracing ..." << endl;  
+    #pragma omp parallel for
     for (int y = 0; y < h; y++) {
-        cout << "progress: " << (float) y / h * 100 << "%\n";
+        // cout << "progress: " << (float) y / h * 100 << "%\n";
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
             Vector3f ans(0, 0, 0);
             for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
@@ -71,6 +74,8 @@ int main(int argc, char *argv[]) {
             }
             img.SetPixel(x, y, ans);
         }
+        multiThreadCounter++;
+        cout << "progress: " << (float) multiThreadCounter / h * 100 << "%\n";
     }
 
     cout << "tracing done." << endl;
