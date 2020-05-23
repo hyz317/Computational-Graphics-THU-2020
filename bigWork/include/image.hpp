@@ -15,6 +15,12 @@ public:
         data = new Vector3f[width * height];
     }
 
+    Image(int w, int h, Vector3f* d) {
+        width = w;
+        height = h;
+        data = d;
+    }
+
     ~Image() {
         delete[] data;
     }
@@ -53,6 +59,8 @@ public:
 
     void SaveTGA(const char *filename) const;
 
+    static Image *LoadBMP(const char *filename);
+    
     int SaveBMP(const char *filename);
 
     void SaveImage(const char *filename);

@@ -29,7 +29,7 @@ public:
         if (t < tmin) return false;
         if (t > h.getT()) return false;
 
-        h.set(t, material, normal);
+        h.set(t, material, normal, 'p');
         return true;
     }
 

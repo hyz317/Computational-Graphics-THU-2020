@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <iostream>
 
 #include "image.hpp"
 
@@ -35,6 +36,13 @@ unsigned char ClampColorComponent( float c )
     }
 
     return ( unsigned char )tmp;
+}
+
+float AntiClampColorComponent(unsigned char c)
+{
+    float tmp = (float) c / 255.0f;
+    // std::cout << (unsigned int)(c) << ' ' << tmp << "\n";
+    return tmp;
 }
 
 // Save and Load data type 2 Targa (.tga) files
@@ -288,6 +296,64 @@ Image::SaveBMP(const char *filename)
     fclose(file);
 
     return(1);
+}
+
+Image* Image::LoadBMP(const char *filename)
+{
+    FILE *file;
+    struct BMPHeader bmph;
+    file = fopen(filename, "rb");
+	if (!file)
+	{
+		fprintf(stderr, "Can't find bmp file to load.\n");
+        return 0;
+	}
+
+    fread(&bmph.bfType, 2, 1, file);
+    fread(&bmph.bfSize, 4, 1, file);
+    fread(&bmph.bfReserved, 4, 1, file);
+    fread(&bmph.bfOffBits, 4, 1, file);
+    fread(&bmph.biSize, 4, 1, file);
+    fread(&bmph.biWidth, 4, 1, file);
+    fread(&bmph.biHeight, 4, 1, file);
+    fread(&bmph.biPlanes, 2, 1, file);
+    fread(&bmph.biBitCount, 2, 1, file);
+    fread(&bmph.biCompression, 4, 1, file);
+    fread(&bmph.biSizeImage, 4, 1, file);
+    fread(&bmph.biXPelsPerMeter, 4, 1, file);
+    fread(&bmph.biYPelsPerMeter, 4, 1, file);
+    fread(&bmph.biClrUsed, 4, 1, file);
+    fread(&bmph.biClrImportant, 4, 1, file);
+
+    int width = bmph.biWidth;
+    int height = bmph.biHeight;
+    int bytesPerLine = (3 * (width + 1) / 4) * 4;
+
+    unsigned char *line = (unsigned char *)malloc(bytesPerLine);
+    Vector3f* data = new Vector3f[width * height];
+    if (line == NULL)
+    {
+        fprintf(stderr, "Can't allocate memory for BMP file.\n");
+        return(0);
+    }
+
+    for (int i = 0; i < height; i++)
+    {
+        fread(line, bytesPerLine, 1, file);
+        for (int j = 0; j < width; j++)
+        {
+            int ipos = (width * i + j);
+            data[ipos] = Vector3f(AntiClampColorComponent(line[3*j+2]),
+                                  AntiClampColorComponent(line[3*j+1]),
+                                  AntiClampColorComponent(line[3*j]));
+        }
+    }
+
+    free(line);
+    fclose(file);
+
+    return new Image(width, height, data);
+
 }
 
 void Image::SaveImage(const char * filename)

@@ -283,7 +283,6 @@ Material *SceneParser::parseMaterial() {
         } else if (strcmp(token, "shininess") == 0) {
             shininess = readFloat();
         } else if (strcmp(token, "texture") == 0) {
-            // Optional: read in texture and draw it.
             getToken(filename);
         } else if (strcmp(token, "diff_factor") == 0) {
             diff_factor = readFloat();
@@ -300,7 +299,7 @@ Material *SceneParser::parseMaterial() {
             break;
         }
     }
-    auto *answer = new Material(diffuseColor, specularColor, absorbColor, shininess, diff_factor, spec_factor, refr_factor, n);
+    auto *answer = new Material(filename, diffuseColor, specularColor, absorbColor, shininess, diff_factor, spec_factor, refr_factor, n);
     return answer;
 }
 

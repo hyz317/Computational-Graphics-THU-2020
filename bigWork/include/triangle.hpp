@@ -47,7 +47,7 @@ public:
 		if (Vector3f::dot(normal, n2) < 0) return false;
 		if (Vector3f::dot(normal, n3) < 0) return false;
 
-        h.set(t, material, normal);
+        h.set(t, material, normal, 't');
         return true;
 	}
 	Vector3f normal;

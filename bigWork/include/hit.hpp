@@ -13,18 +13,21 @@ public:
     Hit() {
         material = nullptr;
         t = 1e38;
+        type = 'n';
     }
 
-    Hit(float _t, Material *m, const Vector3f &n) {
+    Hit(float _t, Material *m, const Vector3f &n, char _type) {
         t = _t;
         material = m;
         normal = n;
+        type = _type;
     }
 
     Hit(const Hit &h) {
         t = h.t;
         material = h.material;
         normal = h.normal;
+        type = h.type;
     }
 
     // destructor
@@ -42,16 +45,22 @@ public:
         return normal;
     }
 
-    void set(float _t, Material *m, const Vector3f &n) {
+    char getType() const {
+        return type;
+    }
+
+    void set(float _t, Material *m, const Vector3f &n, char _type) {
         t = _t;
         material = m;
         normal = n;
+        type = _type;
     }
 
 private:
     float t;
     Material *material;
     Vector3f normal;
+    char type; // n -> None; s -> Sphere; p -> Plane;
 
 };
 

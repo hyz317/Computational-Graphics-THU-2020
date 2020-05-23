@@ -17,6 +17,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+
+
     for (int argNum = 1; argNum < argc; ++argNum) {
         std::cout << "Argument " << argNum << " is: " << argv[argNum] << std::endl;
     }
@@ -28,13 +30,6 @@ int main(int argc, char *argv[]) {
     string inputFile = argv[1];
     string outputFile = argv[2];  // only bmp is allowed.
 
-    // TODO: Main RayCasting Logic
-    // First, parse the scene using SceneParser.
-    // Then loop over each pixel in the image, shooting a ray
-    // through that pixel and finding its intersection with
-    // the scene.  Write the color at the intersection to that
-    // pixel in your output image.
-
     SceneParser parser(argv[1]);
     cout << "parse done" << endl;
     Camera* camera = parser.getCamera();
@@ -42,8 +37,8 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 5000;
-    int depth = 10;
+    int samps = 20;
+    int depth = 8;
     Image img(w, h);
     float tmin = 1e-3;
 
