@@ -440,10 +440,16 @@ Mesh *SceneParser::parseTriangleMesh() {
     assert (!strcmp(token, "obj_file"));
     getToken(filename);
     getToken(token);
+    assert (!strcmp(token, "offset"));
+    Vector3f offset = readVector3f();
+    getToken(token);
+    assert (!strcmp(token, "scaling"));
+    float scaling = readFloat();
+    getToken(token);
     assert (!strcmp(token, "}"));
     const char *ext = &filename[strlen(filename) - 4];
     assert(!strcmp(ext, ".obj"));
-    Mesh *answer = new Mesh(filename, current_material);
+    Mesh *answer = new Mesh(filename, current_material, offset, scaling);
 
     return answer;
 }

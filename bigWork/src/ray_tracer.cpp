@@ -24,7 +24,7 @@ Vector3f RayTracer::calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned s
     Vector3f d = (u * cos(r1) * r2s + v * sin(r1) * r2s + w * sqrt(1 - r2)).normalized();
 
     Vector3f tra = trace(Ray(ray.pointAtParameter(hit.getT()), d), Xi, depth + 1);
-    Vector3f ans = hit.getMaterial()->getDiffuseColor() * tra;
+    Vector3f ans = hit.getMaterial()->getRealDiffuseColor(hit) * tra;
     /*if (ans.length() > 1e-3)
     std::cout << "color: " << ans.x() << ' ' << ans.y() << ' ' << ans.z() << ' '
               << "hit pos: " << ray.pointAtParameter(hit.getT()).x() << ' ' << ray.pointAtParameter(hit.getT()).y() << ' ' << ray.pointAtParameter(hit.getT()).z() << ' ' 
@@ -44,8 +44,7 @@ Vector3f RayTracer::calcReflection(Ray ray, Hit& hit, int depth, unsigned short 
 
 Vector3f RayTracer::calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[])
 {
-    // TODO: Refraction
-    bool front = (Vector3f::dot(ray.getDirection(), hit.getNormal()) < 0);
+    bool front = hit.getFront();
     float n = hit.getMaterial()->n;
     if (front) n = 1 / n;
 
@@ -54,16 +53,25 @@ Vector3f RayTracer::calcRefraction(Ray ray, Hit& hit, int depth, unsigned short 
     // std::cout << 1 - pow(cosi, 2.0f) << ' ' << pow(n, 2.0f) << ' ' << cosr2 << std::endl;
     Vector3f ans(0, 0, 0);
     if (cosr2 < EPS) {
-        ans = calcReflection(ray, hit, depth, Xi);
+        Ray new_reflect_ray = Ray(ray.getOrigin() + ray.getDirection() * hit.getT(), 
+                                 (ray.getDirection() - hit.getNormal() * 2 * Vector3f::dot(hit.getNormal(), ray.getDirection())).normalized() );
+        return trace(new_reflect_ray, Xi, depth + 1) * hit.getMaterial()->refr_factor;
     } else {
         Vector3f new_dir = ray.getDirection() * n + hit.getNormal() * (n * cosi - sqrt(cosr2));
         Ray new_ray = Ray(ray.getOrigin() + ray.getDirection() * hit.getT(), new_dir.normalized());
         Ray new_reflect_ray = Ray(ray.getOrigin() + ray.getDirection() * hit.getT(), 
                                  (ray.getDirection() - hit.getNormal() * 2 * Vector3f::dot(hit.getNormal(), ray.getDirection())).normalized() );
-        float Er = cosi / n - sqrt(cosr2);
-        float Ei = cosi / n + sqrt(cosr2);
-        // ans += trace(new_reflect_ray, depth + 1) * hit.getMaterial()->refr_factor * Er / sqrt(Er * Er + Ei * Ei);
-        ans += trace(new_ray, Xi, depth + 1) * hit.getMaterial()->refr_factor; // * Ei / sqrt(Er * Er + Ei * Ei);
+        // float Er = cosi / n - sqrt(cosr2);
+        // float Ei = cosi / n + sqrt(cosr2);
+        // ans += trace(new_reflect_ray, Xi, depth + 1) * hit.getMaterial()->refr_factor * Er / sqrt(Er * Er + Ei * Ei);
+        // ans += trace(new_ray, Xi, depth + 1) * hit.getMaterial()->refr_factor * Ei / sqrt(Er * Er + Ei * Ei);
+
+        float a = hit.getMaterial()->n - 1.0f, b = hit.getMaterial()->n + 1.0f, R0 = a*a/(b*b), c = 1-(front?-Vector3f::dot(ray.getDirection(), hit.getNormal()):Vector3f::dot(new_dir, -hit.getNormal()));
+        float Re = R0 + (1-R0)*c*c*c*c*c, Tr = 1-Re, P=0.25+0.5*Re, RP=Re/P, TP=Tr/(1-P);
+        return hit.getMaterial()->getRealDiffuseColor(hit) * (depth>2?(erand48(Xi)<P?
+               trace(new_reflect_ray, Xi, depth+1)*RP:trace(new_ray, Xi, depth+1)*TP):
+               trace(new_reflect_ray, Xi, depth+1)*Re+trace(new_ray, Xi, depth+1)*Tr);
+
     }
 
     if (!front) {
@@ -72,6 +80,7 @@ Vector3f RayTracer::calcRefraction(Ray ray, Hit& hit, int depth, unsigned short 
         ans = ans * transform;
     }
     return ans;
+
 }
 
 Vector3f RayTracer::trace(Ray ray, unsigned short Xi[], int depth)
@@ -94,7 +103,7 @@ Vector3f RayTracer::trace(Ray ray, unsigned short Xi[], int depth)
 
     } else if (res1) {
         Material* material = hit.getMaterial();
-        if (material->diff_factor > EPS) ans += calcDiffusion(ray, hit, depth, Xi);
+        if (material->diff_factor > EPS) ans += calcRandomDiffusion(ray, hit, depth, Xi);
         if (material->spec_factor > EPS) ans += calcReflection(ray, hit, depth, Xi);
         if (material->refr_factor > EPS) ans += calcRefraction(ray, hit, depth, Xi);
 

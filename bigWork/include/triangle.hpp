@@ -47,7 +47,11 @@ public:
 		if (Vector3f::dot(normal, n2) < 0) return false;
 		if (Vector3f::dot(normal, n3) < 0) return false;
 
-        h.set(t, material, normal, 't');
+		bool front = (Vector3f::dot(normal, r.getDirection()) < 0);
+
+		if (!front) h.set(t, material, -normal, 't', front);
+		else h.set(t, material, normal, 't', front);
+        
         return true;
 	}
 	Vector3f normal;

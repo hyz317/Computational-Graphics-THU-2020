@@ -37,8 +37,8 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 20;
-    int depth = 8;
+    int samps = 500;
+    int depth = 10;
     Image img(w, h);
     float tmin = 1e-3;
 

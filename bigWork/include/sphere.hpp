@@ -50,7 +50,7 @@ public:
 
         Vector3f normal_P = (r.getOrigin() + r.getDirection() * t - center).normalized();
         if (!front) normal_P = -normal_P;
-        h.set(t, material, normal_P, 's');
+        h.set(t, material, normal_P, 's', front);
         return true;
     }
 

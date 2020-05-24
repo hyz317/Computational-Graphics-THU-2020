@@ -8,7 +8,7 @@ class Material;
 
 class Hit {
 public:
-
+    
     // constructors
     Hit() {
         material = nullptr;
@@ -16,11 +16,12 @@ public:
         type = 'n';
     }
 
-    Hit(float _t, Material *m, const Vector3f &n, char _type) {
+    Hit(float _t, Material *m, const Vector3f &n, char _type, bool _front = true) {
         t = _t;
         material = m;
         normal = n;
         type = _type;
+        front = _front;
     }
 
     Hit(const Hit &h) {
@@ -28,6 +29,7 @@ public:
         material = h.material;
         normal = h.normal;
         type = h.type;
+        front = h.front;
     }
 
     // destructor
@@ -49,11 +51,16 @@ public:
         return type;
     }
 
-    void set(float _t, Material *m, const Vector3f &n, char _type) {
+    bool getFront() const {
+        return front;
+    }
+
+    void set(float _t, Material *m, const Vector3f &n, char _type, bool _front = true) {
         t = _t;
         material = m;
         normal = n;
         type = _type;
+        front = _front;
     }
 
 private:
@@ -61,6 +68,7 @@ private:
     Material *material;
     Vector3f normal;
     char type; // n -> None; s -> Sphere; p -> Plane;
+    bool front;
 
 };
 

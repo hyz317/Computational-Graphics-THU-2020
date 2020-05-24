@@ -41,7 +41,7 @@ Materials {
         diff_factor 0.00
         spec_factor 0.00
         refr_factor 1.00
-        n 2.0
+        n 1.50
     }
     Material { diffuseColor 1 0 0 }
     Material {
@@ -91,10 +91,11 @@ Group {
 	    center 73 16.5 78
         radius 16.5
     }
-    MaterialIndex 3
-    Sphere {
-	    center 45.1797 0 121.818
-        radius 0
+    MaterialIndex 5
+    TriangleMesh {
+        obj_file mesh/cube.obj
+        offset 20 20 100
+        scaling 15
     }
     
 }

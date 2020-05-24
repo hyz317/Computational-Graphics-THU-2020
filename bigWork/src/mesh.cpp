@@ -20,7 +20,7 @@ bool Mesh::intersect(const Ray &r, Hit &h, float tmin) {
     return result;
 }
 
-Mesh::Mesh(const char *filename, Material *material) : Object3D(material) {
+Mesh::Mesh(const char *filename, Material *material, Vector3f offset = Vector3f::ZERO, float scaling = 1.0f) : Object3D(material) {
 
     // Optional: Use tiny obj loader to replace this simple one.
     std::ifstream f;
@@ -52,6 +52,8 @@ Mesh::Mesh(const char *filename, Material *material) : Object3D(material) {
         if (tok == vTok) {
             Vector3f vec;
             ss >> vec[0] >> vec[1] >> vec[2];
+            vec *= scaling;
+            vec += offset;
             v.push_back(vec);
         } else if (tok == fTok) {
             if (line.find(bslash) != std::string::npos) {
