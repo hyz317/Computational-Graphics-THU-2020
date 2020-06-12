@@ -146,7 +146,7 @@ void PhotonTracer::Emitting() {
 }
 
 Photonmap* PhotonTracer::CalcPhotonmap() {
-	photonmap = new Photonmap(1200000); // TODO
+	photonmap = new Photonmap(20000000); // TODO
 	photonmap->setEmitPhotons(emit_photons);
 
 	Emitting();

@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
         // cout << "progress: " << (float) y / h * 100 << "%\n";
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
             Vector3f ans(0, 0, 0);
-            for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
+            /*for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
                 Vector3f r;
                 for (int sx = 0; sx < 2; sx++, r = Vector3f::ZERO) {
                     for (int s = 0; s < samps; s++) {
@@ -77,7 +77,9 @@ int main(int argc, char *argv[]) {
                         ans += tracer.trace(ray, Xi) * 0.25 / samps;
                     }
                 }
-            }
+            }*/
+            Ray ray = camera->generateRay(Vector2f(x, y));
+            ans += tracer.trace(ray, Xi);
             img.SetPixel(x, y, ans);
         }
         multiThreadCounter++;
