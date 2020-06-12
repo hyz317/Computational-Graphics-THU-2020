@@ -78,6 +78,12 @@ float& Vector3f::operator [] ( int i )
     return m_elements[i];
 }
 
+float& Vector3f::Axis( int axis ) {
+	if ( axis == 0 ) return x();
+	if ( axis == 1 ) return y();
+	if ( axis == 2 ) return z();
+}
+
 float& Vector3f::x()
 {
     return m_elements[0];
@@ -322,7 +328,12 @@ bool operator != ( const Vector3f& v0, const Vector3f& v1 )
     return !( v0 == v1 );
 }
 
-inline std::ostream &operator<<(std::ostream &os, const Vector3f &v) {
-    os << "Vector3f(" << v.x() << ", " << v.y() << ", " << v.z() << ")";
-    return os;
+Vector3f Vector3f::Exp()
+{
+	return Vector3f(exp(x()), exp(y()), exp(z()));
+}
+
+float Vector3f::mean()
+{
+	return (x() + y() + z()) / 3.0f;
 }

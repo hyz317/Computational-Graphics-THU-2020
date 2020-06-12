@@ -1,6 +1,8 @@
 #ifndef VECTOR_3F_H
 #define VECTOR_3F_H
 
+#include <iostream>
+
 class Vector2f;
 
 class Vector3f
@@ -30,6 +32,8 @@ public:
     const float& operator [] ( int i ) const;
     float& operator [] ( int i );
 
+	float& Axis( int axis );
+
     float& x();
 	float& y();
 	float& z();
@@ -55,6 +59,9 @@ public:
 	Vector2f homogenized() const;
 
 	void negate();
+
+	Vector3f Exp();
+	float mean();
 
 	// ---- Utility ----
     operator const float* () const; // automatic type conversion for OpenGL
@@ -99,5 +106,10 @@ Vector3f operator / ( const Vector3f& v, float f );
 
 bool operator == ( const Vector3f& v0, const Vector3f& v1 );
 bool operator != ( const Vector3f& v0, const Vector3f& v1 );
+
+inline std::ostream &operator<<(std::ostream &os, const Vector3f &v) {
+    os << "Vector3f(" << v.x() << ", " << v.y() << ", " << v.z() << ")";
+    return os;
+}
 
 #endif // VECTOR_3F_H

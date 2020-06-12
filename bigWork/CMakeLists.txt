@@ -12,6 +12,8 @@ SET(PA1_SOURCES
         src/main.cpp
         src/mesh.cpp
         src/ray_tracer.cpp
+        src/photon_tracer.cpp
+        src/Photonmap.cpp
         src/scene_parser.cpp)
 
 SET(PA1_INCLUDES
@@ -30,6 +32,8 @@ SET(PA1_INCLUDES
         include/sphere.hpp
         include/transform.hpp
         include/triangle.hpp
+        include/photon_tracer.hpp
+        include/Photonmap.hpp
         )
 
 SET(CMAKE_CXX_STANDARD 11)

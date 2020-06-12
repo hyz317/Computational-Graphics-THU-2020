@@ -10,7 +10,9 @@
 #include "camera.hpp"
 #include "group.hpp"
 #include "light.hpp"
+#include "Photonmap.hpp"
 #include "ray_tracer.hpp"
+#include "photon_tracer.hpp"
 
 #include <string>
 
@@ -45,10 +47,50 @@ int main(int argc, char *argv[]) {
     std::vector<Light*> lights;
     for (int i = 0; i < num_lights; i++)
         lights.emplace_back(parser.getLight(i));
-    RayTracer tracer(depth, group, lights, parser.getBackgroundColor());
+    RayTracer tracer(depth, group, lights, camera->getType(), parser.getBackgroundColor());
 
     int multiThreadCounter = 0;
 
+    cout << "photon mapping ..." << endl;  
+
+    PhotonTracer* photontracer = new PhotonTracer(lights, camera->getPhotons(), depth, tmin);
+    photontracer->setGroup(group);
+	Photonmap* photonmap = photontracer->CalcPhotonmap();
+    tracer.setPhotonMap(photonmap);
+	delete photontracer;
+
+    cout << "photon map set up!" << endl;
+
+    #pragma omp parallel for
+    for (int y = 0; y < h; y++) {
+        // cout << "progress: " << (float) y / h * 100 << "%\n";
+        for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
+            Vector3f ans(0, 0, 0);
+            for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
+                Vector3f r;
+                for (int sx = 0; sx < 2; sx++, r = Vector3f::ZERO) {
+                    for (int s = 0; s < samps; s++) {
+                        double r1 = 2 * erand48(Xi), dx = r1 < 1 ? sqrt(r1) - 1 : 1 - sqrt(2 - r1); 
+                        double r2 = 2 * erand48(Xi), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2); 
+                        Ray ray = camera->generateRay(Vector2f((sx + 0.5 + dx) / 2 + x, (sy + 0.5 + dy) / 2 + y));
+                        // Ray Tracing Todo
+                        ans += tracer.trace(ray, Xi) * 0.25 / samps;
+                    }
+                }
+            }
+            img.SetPixel(x, y, ans);
+        }
+        multiThreadCounter++;
+        cout << "progress: " << (float) multiThreadCounter / h * 100 << "%\n";
+    }
+
+    cout << "tracing done." << endl;
+    img.SaveBMP(argv[2]);
+
+
+
+
+    /*
     cout << "path tracing ..." << endl;  
     #pragma omp parallel for
     for (int y = 0; y < h; y++) {
@@ -75,6 +117,10 @@ int main(int argc, char *argv[]) {
 
     cout << "tracing done." << endl;
     img.SaveBMP(argv[2]);
+    */
+
+
+
     
     /*
     cout << "casting ..." << endl;

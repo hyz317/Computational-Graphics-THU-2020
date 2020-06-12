@@ -52,6 +52,18 @@ public:
         return shaded;
     }
 
+    float BRDF(Vector3f ray_R, Vector3f N, Vector3f ray_I) {
+        float ret = 0;
+        ray_R = ray_R.normalized();
+        ray_I = ray_I.normalized();
+        
+        if (diff_factor > EPS && Vector3f::dot(ray_R, N) > EPS)
+            ret += diff_factor * Vector3f::dot(ray_R, N);
+        // TODO: spec
+        
+        return ret;
+    }
+
 protected:
     Vector3f diffuseColor;
     Vector3f specularColor;

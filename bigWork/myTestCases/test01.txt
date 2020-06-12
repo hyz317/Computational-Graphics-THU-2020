@@ -5,8 +5,9 @@ PerspectiveCamera {
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 600
-    height 450
+    width 300
+    height 225
+    photons 1000000
 }
 
 Lights {

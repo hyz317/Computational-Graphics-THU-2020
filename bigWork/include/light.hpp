@@ -4,6 +4,7 @@
 #include <Vector3f.h>
 #include "object3d.hpp"
 #include "group.hpp"
+#include "Photonmap.hpp"
 
 class Light {
 public:
@@ -14,6 +15,7 @@ public:
     virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const = 0;
     virtual bool intersect(Ray ray, float& dis, Vector3f& c) { return false; }
     virtual Vector3f getColor() { return Vector3f::ZERO; }
+    virtual Photon emitPhoton(unsigned short Xi[]) = 0;
 };
 
 
@@ -38,6 +40,10 @@ public:
     }
 
     bool intersect(Ray ray, float& dis, Vector3f& c) { return false; }
+
+    Photon emitPhoton(unsigned short Xi[]) {
+        return Photon();
+    }
 
 private:
 
@@ -74,6 +80,14 @@ public:
     }
 
     bool intersect(Ray ray, float& dis, Vector3f& c) { return false; }
+
+    Photon emitPhoton(unsigned short Xi[]) {
+        Photon ret;
+        ret.power = color / color.mean();
+        ret.pos = position;
+        ret.dir = Vector3f(2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1).normalized();
+        return ret;
+    }
 
 private:
 
@@ -135,6 +149,14 @@ public:
     }
 
     Vector3f getColor() { return color; }
+
+    Photon emitPhoton(unsigned short Xi[]) {
+        Photon ret;
+        ret.power = color / color.mean();
+        ret.pos = position + x_axis * ( erand48(Xi) * 2 - 1 ) + y_axis * ( erand48(Xi) * 2 - 1 );
+        ret.dir = Vector3f(2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1).normalized();
+        return ret;
+    }
 
 
 private:

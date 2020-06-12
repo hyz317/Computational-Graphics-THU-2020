@@ -11,7 +11,13 @@ Vector3f RayTracer::calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short X
         Vector3f p = ray.pointAtParameter(hit.getT());
         light->getIllumination(p, dirToLight, lightColor, group, Xi);
         ans += material->Shade(ray, hit, dirToLight, lightColor) * material->diff_factor;
+        // TODO: TEXTURE
     }
+
+    if (type == "PM")
+        // TODO: parameters need to be adjust.
+        ans += hit.getMaterial()->getRealDiffuseColor(hit) * photonmap->GetIrradiance(ray, hit, 1.0f, 500);
+
     return ans;
 }
 
@@ -103,7 +109,7 @@ Vector3f RayTracer::trace(Ray ray, unsigned short Xi[], int depth)
 
     } else if (res1) {
         Material* material = hit.getMaterial();
-        if (material->diff_factor > EPS) ans += calcRandomDiffusion(ray, hit, depth, Xi);
+        if (material->diff_factor > EPS) ans += calcDiffusion(ray, hit, depth, Xi);
         if (material->spec_factor > EPS) ans += calcReflection(ray, hit, depth, Xi);
         if (material->refr_factor > EPS) ans += calcRefraction(ray, hit, depth, Xi);
 
