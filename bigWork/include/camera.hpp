@@ -18,10 +18,13 @@ public:
         this->height = imgH;
         this->photons = photons;
         this->type = (photons == 0) ? "PT" : "PM";
+        this->focal_len = 30;
+        this->aperture = 0.2;
     }
 
     // Generate rays for each screen-space coordinate
     virtual Ray generateRay(const Vector2f &point) = 0;
+    virtual Ray generateRandomRay(const Vector2f &point, unsigned short Xi[]) = 0;
     virtual ~Camera() = default;
 
     int getWidth() const { return width; }
@@ -39,6 +42,8 @@ protected:
     int width;
     int height;
     int photons;
+    float aperture;
+    int focal_len;
     std::string type;
 };
 
@@ -60,6 +65,19 @@ public:
         float y = point.y();
         Vector3f rayDir = direction + (tan(w_angle / 2.0f) * (x - width / 2.0f) / width * 2.0f * horizontal) + (tan(h_angle / 2.0f) * (y - height / 2.0f) / height * 2.0f * up);
         return Ray(center, rayDir.normalized());
+    }
+
+    Ray generateRandomRay(const Vector2f &point, unsigned short Xi[]) override {
+        Vector3f focalPoint = center + generateRay(point).getDirection() * focal_len;
+        double x, y;
+        do {
+            x = erand48(Xi) * 2 - 1;
+            y = erand48(Xi) * 2 - 1;
+        } while (x * x + y * y > 1);
+        Vector3f newOrigin = center + horizontal * aperture * x + up * aperture * y;
+        Vector3f newDirection = (focalPoint - newOrigin).normalized();
+        // std::cout << "newOrigin " << newOrigin << " newDirection " << newDirection << std::endl;
+        return Ray(newOrigin, newDirection);
     }
 
     

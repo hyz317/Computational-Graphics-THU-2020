@@ -13,6 +13,7 @@
 #include "Photonmap.hpp"
 #include "ray_tracer.hpp"
 #include "photon_tracer.hpp"
+#include "sampler.hpp"
 
 #include <string>
 
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 500;
+    int samps = 2000;
     int depth = 10;
     Image img(w, h);
     float tmin = 1e-3;
@@ -51,6 +52,14 @@ int main(int argc, char *argv[]) {
 
     int multiThreadCounter = 0;
 
+    cout << "SPPMing ..." << endl;
+
+    Sampler sampler(lights, camera, &img, &tracer, group, w, h);
+    sampler.start();
+
+	cout << "SPPM done." << endl;
+
+    /*
     cout << "photon mapping ..." << endl;  
 
     PhotonTracer* photontracer = new PhotonTracer(lights, camera->getPhotons(), depth, tmin);
@@ -66,18 +75,6 @@ int main(int argc, char *argv[]) {
         // cout << "progress: " << (float) y / h * 100 << "%\n";
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
             Vector3f ans(0, 0, 0);
-            /*for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
-                Vector3f r;
-                for (int sx = 0; sx < 2; sx++, r = Vector3f::ZERO) {
-                    for (int s = 0; s < samps; s++) {
-                        double r1 = 2 * erand48(Xi), dx = r1 < 1 ? sqrt(r1) - 1 : 1 - sqrt(2 - r1); 
-                        double r2 = 2 * erand48(Xi), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2); 
-                        Ray ray = camera->generateRay(Vector2f((sx + 0.5 + dx) / 2 + x, (sy + 0.5 + dy) / 2 + y));
-                        // Ray Tracing Todo
-                        ans += tracer.trace(ray, Xi) * 0.25 / samps;
-                    }
-                }
-            }*/
             Ray ray = camera->generateRay(Vector2f(x, y));
             ans += tracer.trace(ray, Xi);
             img.SetPixel(x, y, ans);
@@ -86,9 +83,9 @@ int main(int argc, char *argv[]) {
         cout << "progress: " << (float) multiThreadCounter / h * 100 << "%\n";
     }
 
-    cout << "tracing done." << endl;
+    cout << "photon mapping - tracing done." << endl;
     img.SaveBMP(argv[2]);
-
+    */
 
 
 

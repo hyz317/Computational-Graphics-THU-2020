@@ -7,6 +7,7 @@
 #include "group.hpp"
 #include "light.hpp"
 #include "Photonmap.hpp"
+#include "hitpointmap.hpp"
 #include <vecmath.h>
 
 #define EPS 1e-3
@@ -18,14 +19,15 @@ public:
               max_depth(d), group(g), lights(l), bkgcolor(c), tmin(tm), type(t) {}
     ~RayTracer() {}
 
-    Vector3f trace(Ray ray, unsigned short Xi[], int depth = 1);
-    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[]); // Phong model
-    Vector3f calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
-    Vector3f calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
-    Vector3f calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[]);
+    Vector3f trace(Ray ray, unsigned short Xi[], int depth, int rc, Vector3f weight = Vector3f(1, 1, 1));
+    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight); // Phong model
+    Vector3f calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight);
+    Vector3f calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight);
+    Vector3f calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight);
 
     bool intersectLight(Ray ray, float& dis, Vector3f& color);
     void setPhotonMap(Photonmap* p) { photonmap = p; }
+    void setHitpointMap(HitpointMap* p) { hitpointMap = p; }
 
 private:
     int max_depth;
@@ -35,6 +37,8 @@ private:
     std::vector<Light*>& lights;
     std::string type;
     Photonmap* photonmap;
+    HitpointMap* hitpointMap;
+    
 };
 
 #endif //RAYTRACER_H

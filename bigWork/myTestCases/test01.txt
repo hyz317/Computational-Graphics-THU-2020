@@ -5,19 +5,26 @@ PerspectiveCamera {
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 900
-    height 675
-    photons 10000000
+    width 400
+    height 300
+    photons 0
 }
 
 Lights {
-    numLights 1
+    numLights 2
     AreaLight {
         position 50 81.33 81.33
         x_axis 18 0 0
         y_axis 0 0 18
         color 1 1 1
         emission 12
+    }
+    AreaLight {
+        position 50 81.33 281.33
+        x_axis 18 0 0
+        y_axis 0 0 18
+        color 1 1 1
+        emission 8
     }
 }
 
@@ -26,7 +33,7 @@ Background {
 }
 
 Materials {
-    numMaterials 8
+    numMaterials 9
     Material { diffuseColor 0.75 0.40 0.40 }
     Material { diffuseColor 0.40 0.40 0.75 }
     Material { diffuseColor 0.75 0.75 0.75 }
@@ -49,6 +56,11 @@ Materials {
         specularColor 1 1 1
         shininess 20
         texture texture/tex02.bmp
+    }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex01.bmp
     }
 }
 
@@ -92,11 +104,11 @@ Group {
 	    center 73 16.5 78
         radius 16.5
     }
-    MaterialIndex 5
-    TriangleMesh {
-        obj_file mesh/cube.obj
-        offset 20 20 100
-        scaling 15
+
+    MaterialIndex 8
+    Sphere {
+	    center 50 50 260
+        radius 4.5
     }
     
 }

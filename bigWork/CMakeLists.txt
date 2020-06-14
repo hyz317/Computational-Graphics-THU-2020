@@ -14,7 +14,9 @@ SET(PA1_SOURCES
         src/ray_tracer.cpp
         src/photon_tracer.cpp
         src/Photonmap.cpp
-        src/scene_parser.cpp)
+        src/scene_parser.cpp
+        src/hitpointmap.cpp
+        src/sampler.cpp)
 
 SET(PA1_INCLUDES
         include/camera.hpp
@@ -34,6 +36,8 @@ SET(PA1_INCLUDES
         include/triangle.hpp
         include/photon_tracer.hpp
         include/Photonmap.hpp
+        include/hitpointmap.hpp
+        include/sampler.hpp
         )
 
 SET(CMAKE_CXX_STANDARD 11)

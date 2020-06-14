@@ -4,6 +4,7 @@
 PhotonTracer::PhotonTracer(std::vector<Light*>& l, int e, int d, float tm) : lights(l) {
 	iteration = 0;
 	photonmap = nullptr;
+	hitpointMap = nullptr;
     emit_photons = e;
     max_depth = d;
     tmin = tm;
@@ -111,10 +112,10 @@ void PhotonTracer::PhotonTracing(Photon photon, int depth, bool refracted, unsig
 		photon.pos = ray.pointAtParameter(hit.getT());
         Material* material = hit.getMaterial();
 		if (material->diff_factor > EPS && depth > 1 ) {
-			if (photonmap != NULL)
+			if (photonmap != nullptr)
 				photonmap->Store(photon);
-			//if (hitpointMap != NULL)
-			//	hitpointMap->InsertPhoton(photon);	
+			if (hitpointMap != nullptr)
+				hitpointMap->InsertPhoton(photon);	
 		}
 		
 		float prob = 1;
@@ -124,7 +125,7 @@ void PhotonTracer::PhotonTracing(Photon photon, int depth, bool refracted, unsig
 	}
 }
 
-void PhotonTracer::Emitting() {
+void PhotonTracer::Emitting(int test) {
     double totalPower = 0;
 	for (auto light : lights)
 		totalPower += light->getColor().mean();
@@ -134,10 +135,11 @@ void PhotonTracer::Emitting() {
 		int lightPhotons = (int)(light->getColor().mean() / photonPower);
 
 		#pragma omp parallel for
-		for (int i = 0; i < lightPhotons ; i++) {
+		for (int i = 0; i < lightPhotons; i++) {
+			// if (photonmap == nullptr && test) printf("fuck you!!!\n");
 			unsigned short Xi[3] = {i, i*i, i*i*i};
-			if (/*scene->GetCamera()->getAlgorithm() == "PM" && */ (i & 65535) == 0)
-				printf("Emitted Photons= %d, Stored Photons= %d\n", i, photonmap->getStoredPhotons());
+			/*if (scene->GetCamera()->getAlgorithm() == "PM" &&  (i & 65535) == 0)
+				printf("Emitted Photons= %d, Stored Photons= %d\n", i, photonmap->getStoredPhotons());*/
 			Photon photon = light->emitPhoton(Xi);
 			photon.power *= totalPower;
 			PhotonTracing(photon, 1, false, Xi);
@@ -146,7 +148,7 @@ void PhotonTracer::Emitting() {
 }
 
 Photonmap* PhotonTracer::CalcPhotonmap() {
-	photonmap = new Photonmap(20000000); // TODO
+	photonmap = new Photonmap(2000000); // TODO
 	photonmap->setEmitPhotons(emit_photons);
 
 	Emitting();
