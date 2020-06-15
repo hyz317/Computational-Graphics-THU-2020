@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 
     
     cout << "path tracing ..." << endl;  
-    // #pragma omp parallel for
+    #pragma omp parallel for
     for (int y = 0; y < h; y++) {
         // cout << "progress: " << (float) y / h * 100 << "%\n";
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
@@ -119,10 +119,7 @@ int main(int argc, char *argv[]) {
     cout << "tracing done." << endl;
     img.SaveBMP(argv[2]);
     
-
-
-
-    
+  
     /*
     cout << "casting ..." << endl;
     for (int y = 0; y < h; y++) {
@@ -153,10 +150,10 @@ int main(int argc, char *argv[]) {
             img.SetPixel(x, y, ans);
         }
     }
-    */
+    
     cout << "casting done." << endl;
     img.SaveBMP(argv[2]);
-    
+    */
 
 
     return 0;

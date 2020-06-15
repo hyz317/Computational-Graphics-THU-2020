@@ -7,7 +7,7 @@
 #include <sstream>
 
 bool Mesh::intersect(const Ray &r, Hit &h, float tmin) {
-
+    // if (!box->intersect(r)) return false;
     // Optional: Change this brute force method into a faster one.
     bool result = false;
     for (int triId = 0; triId < (int) t.size(); ++triId) {
@@ -81,6 +81,7 @@ Mesh::Mesh(const char *filename, Material *material, Vector3f offset = Vector3f:
         }
     }
     computeNormal();
+    createBox();
 
     f.close();
 }
@@ -94,4 +95,15 @@ void Mesh::computeNormal() {
         b = Vector3f::cross(a, b);
         n[triId] = b / b.length();
     }
+}
+
+void Mesh::createBox()
+{
+    Vector3f box_min(1e10, 1e10, 1e10), box_max(-1e10, -1e10, -1e10);
+    for (auto i : v) {
+        float x = i.x(), y = i.y(), z = i.z();
+        box_min.x() = std::min(box_min.x(), x); box_min.y() = std::min(box_min.y(), y); box_min.z() = std::min(box_min.z(), z);
+        box_max.x() = std::max(box_max.x(), x); box_max.y() = std::max(box_max.y(), y); box_max.z() = std::max(box_max.z(), z);
+    }
+    box = new Box(box_min, box_max);
 }

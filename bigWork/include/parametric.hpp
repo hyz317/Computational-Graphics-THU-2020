@@ -13,6 +13,9 @@ public:
     Parametric(Material* material, float un, float um, float vn, float vm, std::string func) :
                Object3D(material), umax(um), vmax(vm), umin(un), vmin(vn) {
         if (func == "f1") f = f1;
+        if (func == "f2") f = f2;
+        if (func == "f3") f = f3;
+        if (func == "f4") f = f4;
         tree = new CurveTetraTree(f, un, um, vn, vm);
     }
 
@@ -89,6 +92,23 @@ private:
         float y = sin(u) * sin(v) * a;
         float z = cos(z) * a;
         return Vector3f(x, y, z) + offset;
+    }
+    static Vector3f f3(float u, float v) {
+        Vector3f offset(50, 50, 100);
+        float r = 10;
+        float x = r * sin(3 * u) / (2 + cos(v));
+        float y = r * (sin(u) + 2 * sin(2 * u)) / (2 + cos(v + M_PI * 2 / 3));
+        float z = r / 2 * (cos(u) - 2 * cos(2 * u)) * (2 + cos(v)) * (2 + cos(v + M_PI * 2 / 3)) / 4;
+        return Vector3f(x, y, z) + offset;
+    }
+    static Vector3f f4(float u, float v) {
+        Vector3f offset(50, 50, 50);
+        float scale = 6;
+        float r = 2 + sin(7 * u + 5 * v);
+        float x = r * cos(u) * sin(v);
+        float y = r * cos(v);
+        float z = r * sin(u) * sin(v);
+        return Vector3f(x, y, z) * scale + offset;
     }
 };
 

@@ -1,23 +1,44 @@
 
 PerspectiveCamera {
-    center 50 80 295.6
-    direction 0 -0.15 -1
+    center 50 52 295.6
+    direction 0 -0.04 -1
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 400
-    height 300
+    width 300
+    height 225
     photons 0
 }
 
 Lights {
-    numLights 1
+    numLights 4
     AreaLight {
-        position 50 81.33 81.33
-        x_axis 18 0 0
-        y_axis 0 0 18
-        color 1 1 1
+        position 41 81.33 72.33
+        x_axis 9 0 0
+        y_axis 0 0 9
+        color 1 1 0
+        emission 50
+    }
+    AreaLight {
+        position 41 81.33 90.33
+        x_axis 9 0 0
+        y_axis 0 0 9
+        color 1 0 1
         emission 12
+    }
+    AreaLight {
+        position 59 81.33 72.33
+        x_axis 9 0 0
+        y_axis 0 0 9
+        color 0 1 1
+        emission 12
+    }
+    AreaLight {
+        position 59 81.33 90.33
+        x_axis 9 0 0
+        y_axis 0 0 9
+        color 1 1 1
+        emission 50
     }
 }
 
@@ -26,7 +47,7 @@ Background {
 }
 
 Materials {
-    numMaterials 9
+    numMaterials 11
     Material { diffuseColor 0.75 0.40 0.40 }
     Material { diffuseColor 0.40 0.40 0.75 }
     Material { diffuseColor 0.75 0.75 0.75 }
@@ -38,7 +59,7 @@ Materials {
         refr_factor 0.00
     }
     Material { 
-        diffuseColor 0.99 0.99 0.99
+        diffuseColor 0.75 0.99 0.75
         diff_factor 0.00
         spec_factor 0.00
         refr_factor 1.00
@@ -55,10 +76,20 @@ Materials {
         shininess 20
         texture texture/tex01.bmp
     }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex03.bmp
+    }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex04.bmp
+    }
 }
 
 Group {
-    numObjects 7
+    numObjects 9
     MaterialIndex 0
     Plane {
 	    normal 1 0 0
@@ -87,14 +118,26 @@ Group {
         normal 0 0 -1
         offset -300
     }
-    MaterialIndex 0
+    MaterialIndex 9
+    Rectangle {
+        position 50 1 81.6
+        x_axis 50 0 0
+        y_axis 0 0 81.6
+    }
+    MaterialIndex 10
+    Rectangle {
+        position 1.5 40.8 81.6
+        x_axis 0 40.8 0
+        y_axis 0 0 81.6
+    }
+    MaterialIndex 2
     Transform {
-        XRotate 20
-            Parametric {
-            type f4
-            u 0 6.283185
-            v 0 3.141593
-        } 
+        XRotate 70
+        TriangleMesh {
+            obj_file mesh/stairs_1k.obj
+            offset 60 50 -100
+            scaling 0.5
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 #include "triangle.hpp"
 #include "Vector2f.h"
 #include "Vector3f.h"
+#include "box.hpp"
 
 
 class Mesh : public Object3D {
@@ -28,9 +29,11 @@ public:
     bool intersect(const Ray &r, Hit &h, float tmin) override;
 
 private:
-
     // Normal can be used for light estimation
     void computeNormal();
+    void createBox();
+
+    Box* box;
 };
 
 #endif

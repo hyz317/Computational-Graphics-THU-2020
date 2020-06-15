@@ -15,6 +15,7 @@
 #include "triangle.hpp"
 #include "transform.hpp"
 #include "parametric.hpp"
+#include "rectangle.hpp"
 
 #define DegreesToRadians(x) ((M_PI * x) / 180.0f)
 
@@ -326,6 +327,8 @@ Object3D *SceneParser::parseObject(char token[MAX_PARSER_TOKEN_LENGTH]) {
         answer = (Object3D *) parseTransform();
     } else if (!strcmp(token, "Parametric")) {
         answer = (Object3D *) parseParametric();
+    } else if (!strcmp(token, "Rectangle")) {
+        answer = (Object3D *) parseRectangle();
     } else {
         printf("Unknown token in parseObject: '%s'\n", token);
         exit(0);
@@ -544,6 +547,25 @@ Parametric *SceneParser::parseParametric() {
     assert (!strcmp(token, "}"));
     assert (current_material != nullptr);
     return new Parametric(current_material, u_min, u_max, v_min, v_max, std::string(type_token));
+}
+
+Rectangle *SceneParser::parseRectangle() {
+    char token[MAX_PARSER_TOKEN_LENGTH];
+    getToken(token);
+    assert (!strcmp(token, "{"));
+    getToken(token);
+    assert (!strcmp(token, "position"));
+    Vector3f position = readVector3f();
+    getToken(token);
+    assert (!strcmp(token, "x_axis"));
+    Vector3f x_axis = readVector3f();
+    getToken(token);
+    assert (!strcmp(token, "y_axis"));
+    Vector3f y_axis = readVector3f();
+    getToken(token);
+    assert (!strcmp(token, "}"));
+    assert (current_material != nullptr);
+    return new Rectangle(position, x_axis, y_axis, current_material);
 }
 
 // ====================================================================

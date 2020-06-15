@@ -17,7 +17,7 @@ Vector3f RayTracer::calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short X
 
     if (type == "PM")
         // TODO: parameters need to be adjust.
-        ans += hit.getMaterial()->getRealDiffuseColor(hit) * photonmap->GetIrradiance(ray, hit, 100.0f, 50000) * 20000;
+        ans += hit.getMaterial()->getRealDiffuseColor(hit, ray) * photonmap->GetIrradiance(ray, hit, 100.0f, 50000) * 20000;
     
     // printf("fuck!\n");
     if (type == "SPPM") {
@@ -27,7 +27,7 @@ Vector3f RayTracer::calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short X
 		hitpoint.N = hit.getNormal();
 		hitpoint.hit = hit;
 		hitpoint.rc = rc;
-		hitpoint.weight = weight * hit.getMaterial()->getRealDiffuseColor(hit);
+		hitpoint.weight = weight * hit.getMaterial()->getRealDiffuseColor(hit, ray);
 		hitpoint.R2 = photonmap->GetRadius2(ray, hit, 100.0f, 200000);
         // printf("fuck2!\n");
 		hitpointMap->Store(hitpoint);
@@ -46,7 +46,7 @@ Vector3f RayTracer::calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned s
     Vector3f d = (u * cos(r1) * r2s + v * sin(r1) * r2s + w * sqrt(1 - r2)).normalized();
 
     Vector3f tra = trace(Ray(ray.pointAtParameter(hit.getT()), d), Xi, depth + 1, rc, weight);
-    Vector3f ans = hit.getMaterial()->getRealDiffuseColor(hit) * tra;
+    Vector3f ans = hit.getMaterial()->getRealDiffuseColor(hit, ray) * tra;
     /*if (ans.length() > 1e-3)
     std::cout << "color: " << ans.x() << ' ' << ans.y() << ' ' << ans.z() << ' '
               << "hit pos: " << ray.pointAtParameter(hit.getT()).x() << ' ' << ray.pointAtParameter(hit.getT()).y() << ' ' << ray.pointAtParameter(hit.getT()).z() << ' ' 
@@ -90,7 +90,7 @@ Vector3f RayTracer::calcRefraction(Ray ray, Hit& hit, int depth, unsigned short 
 
         float a = hit.getMaterial()->n - 1.0f, b = hit.getMaterial()->n + 1.0f, R0 = a*a/(b*b), c = 1-(front?-Vector3f::dot(ray.getDirection(), hit.getNormal()):Vector3f::dot(new_dir, -hit.getNormal()));
         float Re = R0 + (1-R0)*c*c*c*c*c, Tr = 1-Re, P=0.25+0.5*Re, RP=Re/P, TP=Tr/(1-P);
-        return hit.getMaterial()->getRealDiffuseColor(hit) * (depth>2?(erand48(Xi)<P?
+        return hit.getMaterial()->getRealDiffuseColor(hit, ray) * (depth>2?(erand48(Xi)<P?
                trace(new_reflect_ray, Xi, depth+1, rc, weight)*RP:trace(new_ray, Xi, depth+1, rc, weight)*TP):
                trace(new_reflect_ray, Xi, depth+1, rc, weight)*Re+trace(new_ray, Xi, depth+1, rc, weight)*Tr);
 

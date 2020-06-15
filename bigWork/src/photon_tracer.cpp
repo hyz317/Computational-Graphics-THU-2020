@@ -12,7 +12,7 @@ PhotonTracer::PhotonTracer(std::vector<Light*>& l, int e, int d, float tm) : lig
 
 bool PhotonTracer::PhotonDiffusion(Ray& ray, Hit& hit, Photon photon, int depth, bool refracted, float* prob, unsigned short Xi[]) {
 	Material* material = hit.getMaterial();
-	Vector3f color = material->getRealDiffuseColor(hit);
+	Vector3f color = material->getRealDiffuseColor(hit, ray);
 
 	float eta = material->diff_factor * (color.x() + color.y() + color.z()) / 3.0f;
 	if (eta <= erand48(Xi) * ( *prob )) {
@@ -34,7 +34,7 @@ bool PhotonTracer::PhotonDiffusion(Ray& ray, Hit& hit, Photon photon, int depth,
 
 bool PhotonTracer::PhotonReflection(Ray& ray, Hit& hit, Photon photon, int depth, bool refracted, float* prob, unsigned short Xi[]) {
 	Material* material = hit.getMaterial();
-	Vector3f color = material->getRealDiffuseColor(hit);
+	Vector3f color = material->getRealDiffuseColor(hit, ray);
 	double eta = material->spec_factor * (color.x() + color.y() + color.z()) / 3.0f;
 
 	if (eta <= erand48(Xi) * ( *prob )) {

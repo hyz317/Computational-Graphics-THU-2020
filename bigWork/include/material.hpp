@@ -31,9 +31,10 @@ public:
         return diffuseColor;
     }
 
-    Vector3f getRealDiffuseColor(const Hit &hit) {
+    Vector3f getRealDiffuseColor(const Hit &hit, const Ray& ray) {
         if (texture.haveTexture()) {
             if (hit.getType() == 's') return texture.calcSphereTexture(hit.getNormal());
+            else if (hit.getType() == 'r') return texture.calcRectangleTexture(ray.pointAtParameter(hit.getT()), hit.x_axis, hit.y_axis, hit.position);
         } else {
             return diffuseColor;
         }
@@ -43,7 +44,7 @@ public:
     Vector3f Shade(const Ray &ray, const Hit &hit,
                    const Vector3f &dirToLight, const Vector3f &lightColor) {
         Vector3f shaded = Vector3f::ZERO;
-        Vector3f realColor = getRealDiffuseColor(hit);
+        Vector3f realColor = getRealDiffuseColor(hit, ray);
       
         Vector3f Rx = 2 * Vector3f::dot(dirToLight, hit.getNormal()) * hit.getNormal() - dirToLight;
         shaded = lightColor * (realColor * std::max(0.0f, Vector3f::dot(dirToLight, hit.getNormal())) + 

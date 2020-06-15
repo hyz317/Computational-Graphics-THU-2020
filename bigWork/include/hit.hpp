@@ -63,6 +63,14 @@ public:
         front = _front;
     }
 
+    void setRectangleParameters(Vector3f p, Vector3f x, Vector3f y) {
+        position = p;
+        x_axis = x;
+        y_axis = y;
+    }
+
+    Vector3f x_axis, y_axis, position;
+
 private:
     float t;
     Material *material;

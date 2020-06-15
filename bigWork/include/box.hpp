@@ -23,27 +23,6 @@ public:
         return true;
     }
 
-    
-};
-
-class CurveBox : public Box {
-public:
-    CurveBox(Vector3f (*ff) (float, float), float un, float um, float vn, float vm) : 
-             f(ff), umax(um), vmax(vm), umin(un), vmin(vn) { calcMargin(); }
-    ~CurveBox() {}
-
-    void calcMargin() {
-        for (float i = umin; i < umax; i += 0.0005) {
-            for (float j = vmin; j < vmax; j += 0.0005) {
-                float x = f(i, j).x(), y = f(i, j).y(), z = f(i, j).z();
-                box_min.x() = std::min(box_min.x(), x); box_min.y() = std::min(box_min.y(), y); box_min.z() = std::min(box_min.z(), z);
-                box_max.x() = std::max(box_max.x(), x); box_max.y() = std::max(box_max.y(), y); box_max.z() = std::max(box_max.z(), z);
-            }
-        }
-        //box_min = box_min + Vector3f(-0.01f, -0.01f, -0.01f);
-        //box_max = box_max + Vector3f(0.01f, 0.01f, 0.01f);
-    }
-
     float intersect(const Ray &r, bool print = false, float tmin = 1e-6) {
         float minDist = -1;
         for (int coord = 0; coord < 3; coord++) {
@@ -63,9 +42,27 @@ public:
                 }
             }
         }
-        if(print) std::cout << "\ttest u: " << getumin() << " -> " << getumax() << " v: " <<
-                    getvmin() << "->" << getvmax() << " bounding " << box_min << " -> " << box_max << " minDist: " << minDist << std::endl;
         return minDist;
+    }
+    
+};
+
+class CurveBox : public Box {
+public:
+    CurveBox(Vector3f (*ff) (float, float), float un, float um, float vn, float vm) : 
+             f(ff), umax(um), vmax(vm), umin(un), vmin(vn) { calcMargin(); }
+    ~CurveBox() {}
+
+    void calcMargin() {
+        for (float i = umin; i < umax; i += 0.0005) {
+            for (float j = vmin; j < vmax; j += 0.0005) {
+                float x = f(i, j).x(), y = f(i, j).y(), z = f(i, j).z();
+                box_min.x() = std::min(box_min.x(), x); box_min.y() = std::min(box_min.y(), y); box_min.z() = std::min(box_min.z(), z);
+                box_max.x() = std::max(box_max.x(), x); box_max.y() = std::max(box_max.y(), y); box_max.z() = std::max(box_max.z(), z);
+            }
+        }
+        //box_min = box_min + Vector3f(-0.01f, -0.01f, -0.01f);
+        //box_max = box_max + Vector3f(0.01f, 0.01f, 0.01f);
     }
 
     float getumax() { return umax; } float getumin() { return umin; }
@@ -140,8 +137,9 @@ public:
         res_u = (box->getumax() + box->getumin()) / 2;
         res_v = (box->getvmax() + box->getvmin()) / 2;*/
 
-        nowlowest = 1e10;
-        find(r, root, 1);
+        float nowlowest = 1e10;
+        CurveBox* tempBox;
+        find(r, root, 1, nowlowest, tempBox);
 
         if (nowlowest < 1e9) {
             res_u = (tempBox->getumax() + tempBox->getumin()) / 2;
@@ -152,7 +150,7 @@ public:
         return false;
     }
 
-    void find(const Ray &r, CurveBox* box, int depth) {
+    void find(const Ray &r, CurveBox* box, int depth, float& nowlowest, CurveBox*& tempBox) {
         float dist = box->intersect(r);
         if (dist > EPS) {
             //std::cout << "depth: " << depth << " boxmin " << box->box_min << " boxmax " << box->box_max << " dist " << dist << std::endl;
@@ -166,7 +164,7 @@ public:
                 return;
             }
             for (int i = 0; i < 4; i++) {
-                find(r, box->next[i], depth + 1);
+                find(r, box->next[i], depth + 1, nowlowest, tempBox);
             }
         }
     }
@@ -176,8 +174,8 @@ private:
     float umax, vmax;
     float umin, vmin;
     CurveBox* root;
-    CurveBox* tempBox;
-    float nowlowest; // initialization!!!!
+    // CurveBox* tempBox;
+    // float nowlowest; // initialization!!!!
 };
 
 #endif // BOX_H

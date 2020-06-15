@@ -1,7 +1,6 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "object3d.hpp"
 #include "image.hpp"
 #include <vecmath.h>
 #include <cstring>
@@ -54,6 +53,15 @@ public:
     Vector3f calcSphereTexture(const Vector3f& normal) {
         float u = 0.5f + atan2(normal.x(), normal.z()) / 2.0f / M_PI;
         float v = 0.5f - asin(-normal.y()) / M_PI;
+        return getTextureColor(u, v);
+    }
+
+    Vector3f calcRectangleTexture(const Vector3f& hitpoint, Vector3f x_axis, Vector3f y_axis, Vector3f pos) {
+        Vector3f p = hitpoint - pos;
+        float u = (Vector3f::dot(p, x_axis) / x_axis.squaredLength() + 1) / 2;
+        float v = (Vector3f::dot(p, y_axis) / y_axis.squaredLength() + 1) / 2;
+
+        // std::cout << u << ' ' << v << ' ' << getTextureColor(u, v) << std::endl;
         return getTextureColor(u, v);
     }
 

@@ -1,7 +1,7 @@
 
 PerspectiveCamera {
-    center 50 80 295.6
-    direction 0 -0.15 -1
+    center 0 20 100
+    direction 0 -0.2 -1
     up 0 1 0
     w-angle 40
     h-angle 30
@@ -13,9 +13,9 @@ PerspectiveCamera {
 Lights {
     numLights 1
     AreaLight {
-        position 50 81.33 81.33
-        x_axis 18 0 0
-        y_axis 0 0 18
+        position -20 70 -20
+        x_axis 15 5 -15
+        y_axis 15 -5 15
         color 1 1 1
         emission 12
     }
@@ -58,43 +58,13 @@ Materials {
 }
 
 Group {
-    numObjects 7
+    numObjects 1
     MaterialIndex 0
-    Plane {
-	    normal 1 0 0
-        offset 1
+    TriangleMesh {
+        obj_file mesh/cube.obj
+        offset 0 0 0
+        scaling 5
     }
-    MaterialIndex 1
-    Plane {
-	    normal -1 0 0
-        offset -99
-    }
-    MaterialIndex 2
-    Plane {
-	    normal 0 0 1
-        offset 0
-    }
-    Plane {
-	    normal 0 1 0
-        offset 0
-    }
-    Plane {
-	    normal 0 -1 0
-        offset -81.6
-    }
-    MaterialIndex 3
-    Plane {
-        normal 0 0 -1
-        offset -300
-    }
-    MaterialIndex 0
-    Transform {
-        XRotate 20
-            Parametric {
-            type f4
-            u 0 6.283185
-            v 0 3.141593
-        } 
-    }
+    
 }
 

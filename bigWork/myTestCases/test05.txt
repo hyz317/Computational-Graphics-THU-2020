@@ -1,12 +1,12 @@
 
 PerspectiveCamera {
-    center 50 80 295.6
-    direction 0 -0.15 -1
+    center 50 52 295.6
+    direction 0 -0.04 -1
     up 0 1 0
     w-angle 40
     h-angle 30
-    width 400
-    height 300
+    width 300
+    height 225
     photons 0
 }
 
@@ -38,7 +38,7 @@ Materials {
         refr_factor 0.00
     }
     Material { 
-        diffuseColor 0.99 0.99 0.99
+        diffuseColor 0.75 0.99 0.75
         diff_factor 0.00
         spec_factor 0.00
         refr_factor 1.00
@@ -87,14 +87,14 @@ Group {
         normal 0 0 -1
         offset -300
     }
-    MaterialIndex 0
+    MaterialIndex 5
     Transform {
-        XRotate 20
-            Parametric {
-            type f4
-            u 0 6.283185
-            v 0 3.141593
-        } 
+        XRotate 70
+        TriangleMesh {
+            obj_file mesh/stairs_1k.obj
+            offset 60 50 -100
+            scaling 0.5
+        }
     }
 }
 

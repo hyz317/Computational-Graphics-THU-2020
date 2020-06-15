@@ -34,6 +34,7 @@ SET(PA1_INCLUDES
         include/sphere.hpp
         include/transform.hpp
         include/triangle.hpp
+        include/rectangle.hpp
         include/photon_tracer.hpp
         include/Photonmap.hpp
         include/hitpointmap.hpp
