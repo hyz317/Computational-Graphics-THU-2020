@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 2000;
+    int samps = 500;
     int depth = 10;
     Image img(w, h);
     float tmin = 1e-3;
@@ -52,12 +52,14 @@ int main(int argc, char *argv[]) {
 
     int multiThreadCounter = 0;
 
+    /*
     cout << "SPPMing ..." << endl;
 
     Sampler sampler(lights, camera, &img, &tracer, group, w, h);
     sampler.start();
 
 	cout << "SPPM done." << endl;
+    */
 
     /*
     cout << "photon mapping ..." << endl;  
@@ -89,9 +91,9 @@ int main(int argc, char *argv[]) {
 
 
 
-    /*
+    
     cout << "path tracing ..." << endl;  
-    #pragma omp parallel for
+    // #pragma omp parallel for
     for (int y = 0; y < h; y++) {
         // cout << "progress: " << (float) y / h * 100 << "%\n";
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
@@ -104,7 +106,7 @@ int main(int argc, char *argv[]) {
                         double r2 = 2 * erand48(Xi), dy = r2 < 1 ? sqrt(r2) - 1 : 1 - sqrt(2 - r2); 
                         Ray ray = camera->generateRay(Vector2f((sx + 0.5 + dx) / 2 + x, (sy + 0.5 + dy) / 2 + y));
                         // Ray Tracing Todo
-                        ans += tracer.trace(ray, Xi) * 0.25 / samps;
+                        ans += tracer.trace(ray, Xi, 1, 0) * 0.25 / samps;
                     }
                 }
             }
@@ -116,7 +118,7 @@ int main(int argc, char *argv[]) {
 
     cout << "tracing done." << endl;
     img.SaveBMP(argv[2]);
-    */
+    
 
 
 
@@ -125,9 +127,11 @@ int main(int argc, char *argv[]) {
     cout << "casting ..." << endl;
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
+            // cout << "(" << x << ',' << y << ") ";
             Ray ray = camera->generateRay(Vector2f(x, y));
             Hit hit;
             Vector3f ans(0, 0, 0);
+            // if (x == 45 && y == 19) cout << "intersect start!\n";
             if (group->intersect(ray, hit, tmin)) {
                 Material* material = hit.getMaterial();
                 for (int i = 0; i < num_lights; i++) {
@@ -135,20 +139,24 @@ int main(int argc, char *argv[]) {
                     Vector3f dirToLight;
                     Vector3f lightColor;
                     Vector3f p = ray.pointAtParameter(hit.getT());
-                    light->getIllumination(p, dirToLight, lightColor);
+                    unsigned short Xi[3] = {i, i*i, i*i*i};
+                    light->getIllumination(p, dirToLight, lightColor, group, Xi);
+                    // if (x == 45 && y == 19) cout << " (" << x << ',' << y << ") " << hit.getT() << ' ';
                     ans += material->Shade(ray, hit, dirToLight, lightColor);
+                    // cout << "point at: " << ray.pointAtParameter(hit.getT());
                 }
             }
             else {
                 ans = parser.getBackgroundColor();
             }
+            // if (x == 45 && y == 19) cout << "finished!\n";
             img.SetPixel(x, y, ans);
         }
     }
-
+    */
     cout << "casting done." << endl;
     img.SaveBMP(argv[2]);
-    */
+    
 
 
     return 0;

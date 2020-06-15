@@ -14,6 +14,7 @@ class Plane;
 class Triangle;
 class Transform;
 class Mesh;
+class Parametric;
 
 #define MAX_PARSER_TOKEN_LENGTH 1024
 
@@ -73,6 +74,7 @@ private:
     Triangle *parseTriangle();
     Mesh *parseTriangleMesh();
     Transform *parseTransform();
+    Parametric *parseParametric();
 
     int getToken(char token[MAX_PARSER_TOKEN_LENGTH]);
 

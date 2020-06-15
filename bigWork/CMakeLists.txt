@@ -38,6 +38,7 @@ SET(PA1_INCLUDES
         include/Photonmap.hpp
         include/hitpointmap.hpp
         include/sampler.hpp
+        include/box.hpp
         )
 
 SET(CMAKE_CXX_STANDARD 11)

@@ -14,6 +14,7 @@
 #include "plane.hpp"
 #include "triangle.hpp"
 #include "transform.hpp"
+#include "parametric.hpp"
 
 #define DegreesToRadians(x) ((M_PI * x) / 180.0f)
 
@@ -323,6 +324,8 @@ Object3D *SceneParser::parseObject(char token[MAX_PARSER_TOKEN_LENGTH]) {
         answer = (Object3D *) parseTriangleMesh();
     } else if (!strcmp(token, "Transform")) {
         answer = (Object3D *) parseTransform();
+    } else if (!strcmp(token, "Parametric")) {
+        answer = (Object3D *) parseParametric();
     } else {
         printf("Unknown token in parseObject: '%s'\n", token);
         exit(0);
@@ -519,6 +522,28 @@ Transform *SceneParser::parseTransform() {
     getToken(token);
     assert (!strcmp(token, "}"));
     return new Transform(matrix, object);
+}
+
+Parametric *SceneParser::parseParametric() {
+    char token[MAX_PARSER_TOKEN_LENGTH];
+    char type_token[MAX_PARSER_TOKEN_LENGTH];
+    getToken(token);
+    assert (!strcmp(token, "{"));
+    getToken(token);
+    assert (!strcmp(token, "type"));
+    getToken(type_token);
+    getToken(token);
+    assert (!strcmp(token, "u"));
+    float u_min = readFloat();
+    float u_max = readFloat();
+    getToken(token);
+    assert (!strcmp(token, "v"));
+    float v_min = readFloat();
+    float v_max = readFloat();
+    getToken(token);
+    assert (!strcmp(token, "}"));
+    assert (current_material != nullptr);
+    return new Parametric(current_material, u_min, u_max, v_min, v_max, std::string(type_token));
 }
 
 // ====================================================================

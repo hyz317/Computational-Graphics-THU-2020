@@ -29,6 +29,7 @@ public:
     bool intersect(const Ray &r, Hit &h, float tmin) override {
         bool crossed = false;
         for (auto i : objects) {
+            // std::cout << "fuck!!!!!!!!!!!!!!!!! " << h.getT() << std::endl;
             if (i->intersect(r, h, tmin))
                 crossed = true;
         }

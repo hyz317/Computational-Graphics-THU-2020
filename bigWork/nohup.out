@@ -1,0 +1,4 @@
+[ 44%] Built target vecmath
+[100%] Built target PA1
+Argument 1 is: myTestCases/test04.txt
+Argument 2 is: output/test04.bmp
