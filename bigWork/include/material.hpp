@@ -35,6 +35,7 @@ public:
         if (texture.haveTexture()) {
             if (hit.getType() == 's') return texture.calcSphereTexture(hit.getNormal());
             else if (hit.getType() == 'r') return texture.calcRectangleTexture(ray.pointAtParameter(hit.getT()), hit.x_axis, hit.y_axis, hit.position);
+            else if (hit.getType() == 'c') return texture.calcParametricTexture(hit.para_u, hit.para_v);
         } else {
             return diffuseColor;
         }

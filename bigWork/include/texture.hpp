@@ -65,6 +65,10 @@ public:
         return getTextureColor(u, v);
     }
 
+    Vector3f calcParametricTexture(const float& u, const float& v) {
+        return getTextureColor(u, v);
+    }
+
 
 protected:
     Image* image;

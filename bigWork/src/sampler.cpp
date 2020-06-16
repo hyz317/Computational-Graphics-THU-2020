@@ -3,6 +3,9 @@
 
 void Sampler::sampling() {
 
+	int counter = 0;
+
+	#pragma omp parallel for
 	for ( int i = 0 ; i < h ; i++ ) {
 		for ( unsigned short j = 0, Xi[3] = {i, i*i, i*i*i} ; j < w ; j++ ) {
 			// printf("%d %d\n", i, j);
@@ -21,36 +24,42 @@ void Sampler::sampling() {
 				img->SetPixel(j, i, color);
 			}
 
-			
+			/*
 			if (j == w - 1) {
 				printf("Sampling=%d/%d\n", i, h);
 				if ((i & 7) == 0)
 					printf("Stored hitpoints=%d\n", hitpointMap->GetStoredHitpoints());
-			}
+			}*/
 		}
+		counter++;
+		printf("Sampling=%d/%d\n", counter, h);
 	}
 }
 
 void Sampler::resampling() {
 	
+	int counter = 0;
+	#pragma omp parallel for
 	for ( int i = 0 ; i < h ; i++ ) {
 		for ( unsigned short j = 0, Xi[3] = {i, i*i, i*i*i} ; j < w ; j++ ) {
 			// TODO: might have bugs there.
-			Vector3f color = img->GetPixel(j, i) / 5;
-			for ( int r = -1 ; r <= 1 ; r++ )
-				for ( int c = -1 ; c <= 1 ; c++ ) {
-					if (((r + c) & 1) == 0) continue;
+			Vector3f color = img->GetPixel(j, i) / 13;
+			for ( int r = -2 ; r <= 2 ; r++ )
+				for ( int c = -2 ; c <= 2 ; c++ ) {
+					if (abs(r) + abs(c) > 2) continue;
 					Ray ray = camera->generateRay(Vector2f((j + ( float ) c / 3.0f ), i + ( float ) r / 3.0f ));
-					color += tracer->trace(ray, Xi, 1, i * w + j, Vector3f(1, 1, 1) / 5) / 5;
+					color += tracer->trace(ray, Xi, 1, i * w + j, Vector3f(1, 1, 1) / 13) / 13;
 				}
 			img->SetPixel(j, i, color);
 
-			if (j == w - 1) {
+			/*if (j == w - 1) {
 				printf("Resampling=%d/%d\n", i, h);
 				if ((i & 7) == 0)
 					printf("Stored hitpoints=%d\n", hitpointMap->GetStoredHitpoints());
-			}
+			}*/
 		}
+		counter++;
+		printf("Resampling=%d/%d\n", counter, h);
 	}
 }
 
@@ -137,7 +146,7 @@ void Sampler::start()
 
 		printf("photon map set up\n");
 
-		randomsampling();
+		sampling();
 
 		printf("sampling finished\n");
 
@@ -149,7 +158,7 @@ void Sampler::start()
 				int c = hitpoints[i].rc % w;
 				hitpoints[i].weight *= 0.2;
 			}
-			// resampling();
+			resampling();
 		}
 		
 		img->SaveBMP("SPPMtest1.bmp");

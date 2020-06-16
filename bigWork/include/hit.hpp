@@ -69,7 +69,13 @@ public:
         y_axis = y;
     }
 
+    void setParametricParameters(float u, float v) {
+        para_u = u;
+        para_v = v;
+    }
+
     Vector3f x_axis, y_axis, position;
+    float para_u, para_v;
 
 private:
     float t;

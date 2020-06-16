@@ -43,6 +43,7 @@ public:
             if (ff.length() < _EPS) {
                 // std::cout << "intersect!\n";
                 h.set(t, material, n, 'c');
+                h.setParametricParameters((u - umin) / (umax - umin), (v - vmin) / (vmax - vmin));
                 return true;
             }
             float D = Vector3f::dot(r.getDirection(), Vector3f::cross(dv, du));
@@ -102,8 +103,8 @@ private:
         return Vector3f(x, y, z) + offset;
     }
     static Vector3f f4(float u, float v) {
-        Vector3f offset(50, 50, 50);
-        float scale = 6;
+        Vector3f offset(2.5, 11.8, 12.5);
+        float scale = 0.7;
         float r = 2 + sin(7 * u + 5 * v);
         float x = r * cos(u) * sin(v);
         float y = r * cos(v);

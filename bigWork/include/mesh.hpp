@@ -12,7 +12,7 @@
 class Mesh : public Object3D {
 
 public:
-    Mesh(const char *filename, Material *m, Vector3f offset, float scaling);
+    Mesh(const char *filename, Material *m, Vector3f offset, Vector3f scaling);
 
     struct TriangleIndex {
         TriangleIndex() {

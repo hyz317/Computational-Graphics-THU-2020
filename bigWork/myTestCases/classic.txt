@@ -1,23 +1,23 @@
 
 PerspectiveCamera {
-    center 0 20 100
-    direction 0 -0.2 -1
+    center 45 20 50
+    direction -1 -0.4 -1
     up 0 1 0
-    w-angle 40
+    w-angle 53.33
     h-angle 30
-    width 400
-    height 300
-    photons 0
+    width 266
+    height 150
+    photons 10000000
 }
 
 Lights {
     numLights 1
     AreaLight {
-        position -20 70 -20
-        x_axis 15 5 -15
-        y_axis 15 -5 15
-        color 1 1 1
-        emission 12
+        position 15 30 -5
+        x_axis 5 1 -1
+        y_axis 1.2 -6 -1
+        color 4 4 4
+        emission 40
     }
 }
 
@@ -26,45 +26,200 @@ Background {
 }
 
 Materials {
-    numMaterials 9
-    Material { diffuseColor 0.75 0.40 0.40 }
-    Material { diffuseColor 0.40 0.40 0.75 }
-    Material { diffuseColor 0.75 0.75 0.75 }
-    Material { diffuseColor 0 0 0 }
+    numMaterials 6
+    Material { diffuseColor 0.2 0.2 0.2 }
+    Material { 
+        diffuseColor 0.99 0.5 0.5
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+    Material { 
+        diffuseColor 0.5 0.99 0.5
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
     Material { 
         diffuseColor 0.99 0.99 0.99
         diff_factor 0.00
         spec_factor 1.00
         refr_factor 0.00
     }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex05.bmp
+    }
     Material { 
-        diffuseColor 0.99 0.99 0.99
+        diffuseColor 0.75 0.75 0.99
         diff_factor 0.00
         spec_factor 0.00
         refr_factor 1.00
         n 1.50
     }
-    Material { diffuseColor 1 0 0 }
-    Material {
-        specularColor 1 1 1
-        shininess 20
-        texture texture/tex02.bmp
-    }
-    Material {
-        specularColor 1 1 1
-        shininess 20
-        texture texture/tex01.bmp
-    }
 }
 
 Group {
-    numObjects 1
+    numObjects 30
     MaterialIndex 0
     TriangleMesh {
-        obj_file mesh/cube.obj
+        obj_file mesh/cube2.obj
         offset 0 0 0
-        scaling 5
+        scaling 5 15 5
     }
-    
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 0 0 5
+        scaling 5 7.5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 0 0 10
+        scaling 5 10 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 0 0 15
+        scaling 5 6 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 0 0 20
+        scaling 5 7.5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 0 0 25
+        scaling 5 5.5 5
+    }
+
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 5 0 0
+        scaling 5 11.5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 5 0 5
+        scaling 5 6.5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 5 0 10
+        scaling 5 5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 5 0 15
+        scaling 5 5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 5 0 20
+        scaling 5 4 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 5 0 25
+        scaling 5 4.5 5
+    }
+
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 10 0 0
+        scaling 5 5.5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 10 0 5
+        scaling 5 5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 10 0 10
+        scaling 5 5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 10 0 15
+        scaling 5 5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 10 0 20
+        scaling 5 7.5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 10 0 25
+        scaling 5 5 5
+    }
+
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 0
+        scaling 5 10 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 5
+        scaling 5 4 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 10
+        scaling 5 7 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 15
+        scaling 5 4 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 20
+        scaling 5 5 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 25
+        scaling 5 3 5
+    }
+    TriangleMesh {
+        obj_file mesh/cube2.obj
+        offset 15 0 30
+        scaling 5 1 5
+    }
+    MaterialIndex 1
+    Sphere {
+        center 12.5 9.1 22.5
+        radius 2
+    }
+    MaterialIndex 2
+    TriangleMesh {
+        obj_file mesh/bunny_200.obj
+        offset 17.5 5 12.5
+        scaling 15 15 15
+    }
+    MaterialIndex 3
+    Sphere {
+        center 17.5 6.5 22.5
+        radius 1.5
+    }
+    MaterialIndex 4      
+    Parametric {
+        type f4
+        u 0 6.283185
+        v 0 3.141593
+    }
+    MaterialIndex 5
+    TriangleMesh {
+        obj_file mesh/chess_1k.obj
+        offset 7.5 10.93 2.5
+        scaling 0.5 0.5 0.5
+    }
 }
 

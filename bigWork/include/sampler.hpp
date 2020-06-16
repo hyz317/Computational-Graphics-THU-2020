@@ -20,7 +20,7 @@ class Sampler
 {
 public:
     Sampler(std::vector<Light*>& l, Camera* c, Image* i, RayTracer* r, Group* g, int ww, int hh) : 
-            lights(l), img(i), group(g), tracer(r), camera(c), w(ww), h(hh), dof_sample(16), iterations(64), aperture(0.2) {}
+            lights(l), img(i), group(g), tracer(r), camera(c), w(ww), h(hh), dof_sample(16), iterations(64), aperture(0) {}
     ~Sampler() {}
 
     void start();

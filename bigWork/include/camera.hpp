@@ -19,7 +19,7 @@ public:
         this->photons = photons;
         this->type = (photons == 0) ? "PT" : "PM";
         this->focal_len = 30;
-        this->aperture = 0.2;
+        this->aperture = 0;
     }
 
     // Generate rays for each screen-space coordinate

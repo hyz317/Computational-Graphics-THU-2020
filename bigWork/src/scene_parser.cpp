@@ -453,7 +453,7 @@ Mesh *SceneParser::parseTriangleMesh() {
     Vector3f offset = readVector3f();
     getToken(token);
     assert (!strcmp(token, "scaling"));
-    float scaling = readFloat();
+    Vector3f scaling = readVector3f();
     getToken(token);
     assert (!strcmp(token, "}"));
     const char *ext = &filename[strlen(filename) - 4];

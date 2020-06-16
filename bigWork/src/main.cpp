@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 500;
+    int samps = 200;
     int depth = 10;
     Image img(w, h);
     float tmin = 1e-3;
@@ -52,14 +52,14 @@ int main(int argc, char *argv[]) {
 
     int multiThreadCounter = 0;
 
-    /*
+    
     cout << "SPPMing ..." << endl;
 
     Sampler sampler(lights, camera, &img, &tracer, group, w, h);
     sampler.start();
 
 	cout << "SPPM done." << endl;
-    */
+    
 
     /*
     cout << "photon mapping ..." << endl;  
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
         for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
             Vector3f ans(0, 0, 0);
             Ray ray = camera->generateRay(Vector2f(x, y));
-            ans += tracer.trace(ray, Xi);
+            ans += tracer.trace(ray, Xi, 1, 0);
             img.SetPixel(x, y, ans);
         }
         multiThreadCounter++;
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    
+    /*
     cout << "path tracing ..." << endl;  
     #pragma omp parallel for
     for (int y = 0; y < h; y++) {
@@ -118,10 +118,11 @@ int main(int argc, char *argv[]) {
 
     cout << "tracing done." << endl;
     img.SaveBMP(argv[2]);
-    
+    */
   
     /*
     cout << "casting ..." << endl;
+    #pragma omp parallel for
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             // cout << "(" << x << ',' << y << ") ";
@@ -149,6 +150,8 @@ int main(int argc, char *argv[]) {
             // if (x == 45 && y == 19) cout << "finished!\n";
             img.SetPixel(x, y, ans);
         }
+        multiThreadCounter++;
+        cout << "progress: " << (float) multiThreadCounter / h * 100 << "%\n";
     }
     
     cout << "casting done." << endl;
