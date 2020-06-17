@@ -125,7 +125,7 @@ Vector3f RayTracer::trace(Ray ray, unsigned short Xi[], int depth, int rc, Vecto
 
     } else if (res1) {
         Material* material = hit.getMaterial();
-        if (material->diff_factor > EPS) ans += calcDiffusion(ray, hit, depth, Xi, rc, weight);
+        if (material->diff_factor > EPS) ans += calcRandomDiffusion(ray, hit, depth, Xi, rc, weight);
         if (material->spec_factor > EPS) ans += calcReflection(ray, hit, depth, Xi, rc, weight);
         if (material->refr_factor > EPS) ans += calcRefraction(ray, hit, depth, Xi, rc, weight);
 

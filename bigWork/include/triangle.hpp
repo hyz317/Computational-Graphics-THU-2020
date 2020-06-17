@@ -51,6 +51,10 @@ public:
 
 		if (!front) h.set(t, material, -normal, 't', front);
 		else h.set(t, material, normal, 't', front);
+
+		Vector3f po = r.pointAtParameter(h.getT());
+		h.setParametricParameters(fmod((po.x() + po.y()) / 100, 1),
+								  fmod((po.y() + po.z()) / 100, 1));
         
         return true;
 	}

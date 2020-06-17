@@ -147,6 +147,7 @@ void Sampler::start()
 		printf("photon map set up\n");
 
 		sampling();
+		img->SaveBMP("SPPMtest.bmp");
 
 		printf("sampling finished\n");
 

@@ -103,8 +103,8 @@ private:
         return Vector3f(x, y, z) + offset;
     }
     static Vector3f f4(float u, float v) {
-        Vector3f offset(2.5, 11.8, 12.5);
-        float scale = 0.7;
+        Vector3f offset(50, 75, 30);
+        float scale = 10;
         float r = 2 + sin(7 * u + 5 * v);
         float x = r * cos(u) * sin(v);
         float y = r * cos(v);

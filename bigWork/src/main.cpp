@@ -52,14 +52,14 @@ int main(int argc, char *argv[]) {
 
     int multiThreadCounter = 0;
 
-    
+    /*
     cout << "SPPMing ..." << endl;
 
     Sampler sampler(lights, camera, &img, &tracer, group, w, h);
     sampler.start();
 
 	cout << "SPPM done." << endl;
-    
+    */
 
     /*
     cout << "photon mapping ..." << endl;  
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    /*
+    
     cout << "path tracing ..." << endl;  
     #pragma omp parallel for
     for (int y = 0; y < h; y++) {
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 
     cout << "tracing done." << endl;
     img.SaveBMP(argv[2]);
-    */
+    
   
     /*
     cout << "casting ..." << endl;

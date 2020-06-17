@@ -23,6 +23,7 @@ public:
         if (fabs(d) < 1e-3) return false;
         float t = Vector3f::dot(n * Vector3f::dot(position, n) - r.getOrigin(), n) / d;
         if (t < tmin) return false;
+        if (t > h.getT()) return false;
 
         Vector3f v = r.getOrigin() + r.getDirection() * t - position;
         if (fabs(Vector3f::dot(x_axis, v)) > Vector3f::dot(x_axis, x_axis)) return false;

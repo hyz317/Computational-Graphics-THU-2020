@@ -102,7 +102,7 @@ public:
     ~AreaLight() override = default;
 
     AreaLight(const Vector3f& p, const Vector3f& x, const Vector3f& y, const Vector3f& c, float e) : 
-        position(p), x_axis(x), y_axis(y), color(c), emission(e) {}
+        position(p), x_axis(x), y_axis(y), color(c), emission(e) { ndir = Vector3f::cross(x, y).normalized(); }
 
     void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col, Group* group, unsigned short Xi[], int sampling_factor = 3) const override {
         int shade = 0;
@@ -155,6 +155,13 @@ public:
         ret.power = color / color.mean();
         ret.pos = position + x_axis * ( erand48(Xi) * 2 - 1 ) + y_axis * ( erand48(Xi) * 2 - 1 );
         ret.dir = Vector3f(2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1).normalized();
+        float co = fabs(Vector3f::dot(ret.dir, ndir));
+        while (erand48(Xi) > co) {
+            ret.dir = Vector3f(2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1).normalized();
+            co = fabs(Vector3f::dot(ret.dir, ndir));
+        }
+        // std::cout << fabs(Vector3f::dot(ret.dir, ndir)) << std::endl;
+        // std::cout << "origin " << ret.pos << " dir " << ret.dir << std::endl;
         return ret;
     }
 
@@ -164,6 +171,7 @@ private:
     Vector3f x_axis;
     Vector3f y_axis;
     Vector3f color;
+    Vector3f ndir;
     float emission;
 };
 
