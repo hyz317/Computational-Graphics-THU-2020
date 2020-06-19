@@ -13,6 +13,7 @@ class Mesh : public Object3D {
 
 public:
     Mesh(const char *filename, Material *m, Vector3f offset, Vector3f scaling);
+    ~Mesh();
 
     struct TriangleIndex {
         TriangleIndex() {
@@ -32,8 +33,10 @@ private:
     // Normal can be used for light estimation
     void computeNormal();
     void createBox();
+    void createTree();
 
     Box* box;
+    TriangleTree* tree;
 };
 
 #endif

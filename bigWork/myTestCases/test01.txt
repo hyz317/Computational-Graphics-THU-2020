@@ -104,12 +104,6 @@ Group {
 	    center 73 16.5 78
         radius 16.5
     }
-
-    MaterialIndex 8
-    Sphere {
-	    center 50 50 260
-        radius 4.5
-    }
     
 }
 

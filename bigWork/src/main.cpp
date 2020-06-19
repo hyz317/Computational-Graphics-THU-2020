@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 200;
+    int samps = 2500;
     int depth = 10;
     Image img(w, h);
     float tmin = 1e-3;
@@ -111,9 +111,9 @@ int main(int argc, char *argv[]) {
                 }
             }
             img.SetPixel(x, y, ans);
+            multiThreadCounter++;
+            cout << "progress: " << (float) multiThreadCounter / h / w * 100 << "%\n";
         }
-        multiThreadCounter++;
-        cout << "progress: " << (float) multiThreadCounter / h * 100 << "%\n";
     }
 
     cout << "tracing done." << endl;

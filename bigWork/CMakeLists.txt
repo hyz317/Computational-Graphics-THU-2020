@@ -16,7 +16,8 @@ SET(PA1_SOURCES
         src/Photonmap.cpp
         src/scene_parser.cpp
         src/hitpointmap.cpp
-        src/sampler.cpp)
+        src/sampler.cpp
+        src/triangletree.cpp)
 
 SET(PA1_INCLUDES
         include/camera.hpp

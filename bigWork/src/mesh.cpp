@@ -9,7 +9,7 @@
 bool Mesh::intersect(const Ray &r, Hit &h, float tmin) {
     // if (!box->intersect(r)) return false;
     // Optional: Change this brute force method into a faster one.
-    bool result = false;
+    /*bool result = false;
     for (int triId = 0; triId < (int) t.size(); ++triId) {
         TriangleIndex& triIndex = t[triId];
         Triangle triangle(v[triIndex[0]],
@@ -17,7 +17,8 @@ bool Mesh::intersect(const Ray &r, Hit &h, float tmin) {
         triangle.normal = n[triId];
         result |= triangle.intersect(r, h, tmin);
     }
-    return result;
+    return result;*/
+    return tree->intersect(tree->root, r, h);
 }
 
 Mesh::Mesh(const char *filename, Material *material, Vector3f offset = Vector3f::ZERO, Vector3f scaling = Vector3f(1,1,1)) : Object3D(material) {
@@ -82,6 +83,7 @@ Mesh::Mesh(const char *filename, Material *material, Vector3f offset = Vector3f:
     }
     computeNormal();
     createBox();
+    createTree();
 
     f.close();
 }
@@ -106,4 +108,24 @@ void Mesh::createBox()
         box_max.x() = std::max(box_max.x(), x); box_max.y() = std::max(box_max.y(), y); box_max.z() = std::max(box_max.z(), z);
     }
     box = new Box(box_min, box_max);
+}
+
+void Mesh::createTree()
+{
+    tree = new TriangleTree;
+    for (int triId = 0; triId < (int) t.size(); ++triId) {
+        TriangleIndex& triIndex = t[triId];
+        Triangle* triangle = new Triangle(v[triIndex[0]],
+                                          v[triIndex[1]], v[triIndex[2]], material);
+        triangle->normal = n[triId];
+        tree->root->tris.emplace_back(triangle);
+        tree->root->update(triangle);
+    }
+    tree->root->size = t.size();
+    tree->divideNode(tree->root);
+}
+
+Mesh::~Mesh()
+{
+    delete tree;
 }

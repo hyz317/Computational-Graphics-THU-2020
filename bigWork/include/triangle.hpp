@@ -58,6 +58,17 @@ public:
         
         return true;
 	}
+
+	float getMin(int axis) {
+        int x0 = vertices[0][axis], x1 = vertices[1][axis], x2 = vertices[2][axis];
+        return std::min(x0, std::min(x1, x2));
+    }
+
+    float getMax(int axis) {
+        int x0 = vertices[0][axis], x1 = vertices[1][axis], x2 = vertices[2][axis];
+        return std::max(x0, std::max(x1, x2));
+    }
+
 	Vector3f normal;
 	Vector3f vertices[3];
 protected:

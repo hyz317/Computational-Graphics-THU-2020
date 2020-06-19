@@ -1,2 +1,7 @@
-nohup: invalid option -- 'u'
-Try 'nohup --help' for more information.
+nohup: ignoring input
+Argument 1 is: myTestCases/test04.txt
+Argument 2 is: output/test04.bmp
+start build tree!
+build tree finished!
+parse done
+path tracing ...

@@ -3,7 +3,10 @@
 
 #include <vecmath.h>
 #include "ray.hpp"
+#include "hit.hpp"
+#include "triangle.hpp"
 #include <iostream>
+#include <vector>
 
 #define EPS 1e-3
 
@@ -77,6 +80,38 @@ private:
 
 };
 
+class TriangleBox : public Box {
+public:
+    TriangleBox() {
+        size = 0;
+        plane = -1;
+        split = 0;
+        l = r = nullptr;
+    }
+    ~TriangleBox() {}
+
+    void update(Triangle* tri) { 
+        box_min.x() = std::min(box_min.x(), tri->getMin(0)); box_max.x() = std::max(box_max.x(), tri->getMax(0));
+        box_min.y() = std::min(box_min.y(), tri->getMin(1)); box_max.y() = std::max(box_max.y(), tri->getMax(1));
+        box_min.z() = std::min(box_min.z(), tri->getMin(2)); box_max.z() = std::max(box_max.z(), tri->getMax(2));
+    }
+
+    float area() {
+        float a = box_max.x() - box_min.x();
+        float b = box_max.y() - box_min.y();
+        float c = box_max.z() - box_min.z();
+        return 2 * (a * b + b * c + c * a);
+    }
+
+    std::vector<Triangle*> tris;
+    int size;
+    int plane;
+    float split;
+
+    TriangleBox* l;
+    TriangleBox* r;
+};
+
 class CurveTetraTree {
 public:
     CurveTetraTree(Vector3f (*ff) (float, float), float un, float um, float vn, float vm) : 
@@ -91,7 +126,7 @@ public:
     }
 
     void buildTree(CurveBox* box, int depth) {
-        if (depth > 10) return;
+        if (depth > 12) return;
         // std::cout << "box depth: " << depth << " bounding: " << box->box_min << " -> " << box->box_max << std::endl;
         float umid = (box->getumax() + box->getumin()) / 2.0f;
         float vmid = (box->getvmax() + box->getvmin()) / 2.0f;
@@ -156,7 +191,7 @@ public:
             //std::cout << "depth: " << depth << " boxmin " << box->box_min << " boxmax " << box->box_max << " dist " << dist << std::endl;
             //std::cout << "\tu: " << box->getumin() << " -> " << box->getumax() << " v: " <<
             //        box->getvmin() << " -> " << box->getvmax() << std::endl;
-            if (depth == 10) {
+            if (depth == 12) {
                 if (dist < nowlowest) { // 特判>0?
                     tempBox = box;
                     nowlowest = dist;
@@ -176,6 +211,19 @@ private:
     CurveBox* root;
     // CurveBox* tempBox;
     // float nowlowest; // initialization!!!!
+};
+
+class TriangleTree {
+public:
+    TriangleTree();
+	~TriangleTree();
+
+	void sortTriangle(Triangle** tris, int l, int r, int axis, bool minAxis);
+	void divideNode(TriangleBox* node);
+    bool intersect(TriangleBox* node, const Ray& ray, Hit& hit);
+    void deleteTree(TriangleBox* node);
+
+    TriangleBox* root;
 };
 
 #endif // BOX_H
