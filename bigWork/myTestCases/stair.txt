@@ -1,0 +1,144 @@
+
+PerspectiveCamera {
+    center 50 132 295.6
+    direction 0 -0.35 -1
+    up 0 1 0
+    w-angle 40
+    h-angle 30
+    width 1920
+    height 1440
+    photons 10000000
+}
+
+Lights {
+    numLights 1
+    AreaLight {
+        position 50 110 40
+        x_axis 2 0 0
+        y_axis 0 2 0
+        color 1 1 0.8
+        emission 4
+    }
+}
+
+Background {
+    color 0 0 0 
+}
+
+Materials {
+    numMaterials 14
+    Material { diffuseColor 0.75 0.40 0.40 }
+    Material { diffuseColor 0.40 0.40 0.75 }
+    Material { diffuseColor 0.75 0.75 0.75 }
+    Material { diffuseColor 0 0 0 }
+    Material { 
+        diffuseColor 0.99 0.99 0.99
+        diff_factor 0.00
+        spec_factor 1.00
+        refr_factor 0.00
+    }
+    Material { 
+        diffuseColor 0.75 0.99 0.75
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+    Material { diffuseColor 1 0 0 }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex02.bmp
+    }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex01.bmp
+    }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex03.bmp
+    }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex04.bmp
+    }
+    Material {
+        specularColor 1 1 1
+        shininess 20
+        texture texture/tex06.bmp
+    }
+    Material { 
+        diffuseColor 0.99 0.7 0.7
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+    Material { 
+        diffuseColor 0.7 0.7 0.99
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+}
+
+Group {
+    numObjects 9
+    MaterialIndex 0
+    MaterialIndex 2
+    Plane {
+	    normal 0 0 1
+        offset 0
+    }
+    Plane {
+	    normal 0 1 0
+        offset 0
+    }
+    MaterialIndex 3
+    Plane {
+        normal 0 0 -1
+        offset -300
+    }
+    MaterialIndex 9
+    Rectangle {
+        position 50 1 81.6
+        x_axis 110 0 0
+        y_axis 0 0 81.6
+    }
+    MaterialIndex 10
+    Rectangle {
+        position 50 60.8 0
+        x_axis 110 0 0
+        y_axis 0 60 0
+    }
+    MaterialIndex 11
+    Transform {
+        XRotate 70
+        TriangleMesh {
+            obj_file mesh/stairs_1k.obj
+            offset 60 50 -100
+            scaling 0.5 0.5 0.5
+        }
+    }
+    MaterialIndex 7
+    Sphere {
+        center 20 10 20
+        radius 10
+    }
+    MaterialIndex 13
+    Sphere {
+        center 80 6 95
+        radius 6
+    }
+    MaterialIndex 11
+    TriangleMesh {
+        obj_file mesh/chair_200.obj
+        offset -20 0 70
+        scaling 0.15 0.15 0.15
+    }
+}
+
