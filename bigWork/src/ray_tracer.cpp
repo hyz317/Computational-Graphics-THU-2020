@@ -68,14 +68,14 @@ Vector3f RayTracer::calcRefraction(Ray ray, Hit& hit, int depth, unsigned short 
 {
     bool front = hit.getFront();
     float n = hit.getMaterial()->n;
-    if (colorId != 3) n += (colorId - 1) * 0.1;
+    /*if (colorId != 3) n += (colorId - 1) * 0.1;
     else {
         Vector3f ans(0, 0, 0);
         ans.x() = calcRefraction(ray, hit, depth, Xi, rc, weight, 0).x();
         ans.y() = calcRefraction(ray, hit, depth, Xi, rc, weight, 1).y();
         ans.z() = calcRefraction(ray, hit, depth, Xi, rc, weight, 2).z();
         return ans;
-    }
+    }*/
     if (front) n = 1 / n;
 
     float cosi = Vector3f::dot(hit.getNormal(), ray.getDirection()) * -1.0f;
@@ -133,7 +133,7 @@ Vector3f RayTracer::trace(Ray ray, unsigned short Xi[], int depth, int rc, Vecto
 
     } else if (res1) {
         Material* material = hit.getMaterial();
-        if (material->diff_factor > EPS) ans += calcRandomDiffusion(ray, hit, depth, Xi, rc, weight, colorId);
+        if (material->diff_factor > EPS) ans += calcDiffusion(ray, hit, depth, Xi, rc, weight, colorId);
         if (material->spec_factor > EPS) ans += calcReflection(ray, hit, depth, Xi, rc, weight, colorId);
         if (material->refr_factor > EPS) ans += calcRefraction(ray, hit, depth, Xi, rc, weight, colorId);
 

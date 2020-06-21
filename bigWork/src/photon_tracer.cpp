@@ -156,3 +156,53 @@ Photonmap* PhotonTracer::CalcPhotonmap() {
 	photonmap->Balance();
 	return photonmap;
 }
+
+Image* PhotonTracer::CalcVolumetricmap(Camera* camera)
+{
+	srand(time(nullptr));
+	PerspectiveCamera* pcamera = (PerspectiveCamera*) camera;
+	Image* image = new Image(camera->getWidth(), camera->getHeight());
+	for (auto light : lights) {
+		for (int i = 0; i < 720000000; i++) {
+			unsigned short Xi[3] = {i, i*i, i*i*i*i};
+			Photon photon = light->emitPhoton(Xi);
+			Ray ray(photon.pos, photon.dir.normalized());
+			Hit hit;
+			if (group->intersect(ray, hit, 1e-3)) {
+				unsigned short Xi[3] = {i, i*i, i*i*i};
+				float t = hit.getT() * (1 - pow((static_cast<double>(rand()) / RAND_MAX + erand48(Xi)) / 2, 2));
+				Vector3f pos = ray.pointAtParameter(t);
+				int w, h;
+				pcamera->calcPixel(pos, w, h);
+				if (w >= camera->getWidth() || w < 0 || h >= camera->getHeight() || h < 0) continue;
+				// std::cout << w << ' ' << h << ' ' << photon.power << std::endl;
+				// std::cout << erand48(Xi) << std::endl;
+				Vector3f power = image->GetPixel(w, h);
+				image->SetPixel(w, h, photon.power / 100 + power);		
+			}
+			if (i % 1000000 == 0) {
+				image->SaveImage("volumatrictest.bmp");
+				std::cout << "volumetric light process " << i / 1000000 << '/' << 720 << std::endl;
+			}
+		}
+	}
+	/*Image* newimg = new Image(camera->getWidth(), camera->getHeight());
+	for (int y = 0; y < camera->getHeight(); y++) {
+		for (int x = 0; x < camera->getWidth(); x++) {
+			int counter = 0;
+			Vector3f color(0,0,0);
+			for (int i = -2; i <= 2 && x-i >= 0 && x+i < camera->getWidth(); i++) {
+				for (int j = -2; j <= 2 && y-j >= 0 && y+j < camera->getHeight(); j++) {
+					counter++;
+					color += image->GetPixel(x+i, y+j);
+				}
+			}
+			// std::cout << x << ' ' << y << ' ' << counter << std::endl;
+			newimg->SetPixel(x, y, color / counter);
+		}
+	}
+	delete image;
+	newimg->SaveImage("volumatrictest.bmp");
+	return newimg;*/
+	return image;
+}

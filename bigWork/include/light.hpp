@@ -153,11 +153,11 @@ public:
     Photon emitPhoton(unsigned short Xi[]) {
         Photon ret;
         ret.power = color / color.mean();
-        ret.pos = position + x_axis * ( erand48(Xi) * 2 - 1 ) + y_axis * ( erand48(Xi) * 2 - 1 );
-        ret.dir = Vector3f(2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1).normalized();
+        ret.pos = position + x_axis * ( erand48(Xi) + (static_cast<double>(rand()) / RAND_MAX) - 1 ) + y_axis * ( erand48(Xi) + (static_cast<double>(rand()) / RAND_MAX) - 1 );
+        ret.dir = Vector3f((static_cast<double>(rand()) / RAND_MAX) + erand48(Xi) - 1, (static_cast<double>(rand()) / RAND_MAX) + erand48(Xi) - 1, (static_cast<double>(rand()) / RAND_MAX) + erand48(Xi) - 1).normalized();
         float co = fabs(Vector3f::dot(ret.dir, ndir));
-        while (erand48(Xi) > co) {
-            ret.dir = Vector3f(2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1, 2 * erand48(Xi) - 1).normalized();
+        while ((static_cast<double>(rand()) / RAND_MAX) > co) {
+            ret.dir = Vector3f((static_cast<double>(rand()) / RAND_MAX) + erand48(Xi) - 1, (static_cast<double>(rand()) / RAND_MAX) + erand48(Xi) - 1, (static_cast<double>(rand()) / RAND_MAX) + erand48(Xi) - 1).normalized();
             co = fabs(Vector3f::dot(ret.dir, ndir));
         }
         // std::cout << fabs(Vector3f::dot(ret.dir, ndir)) << std::endl;

@@ -52,14 +52,14 @@ int main(int argc, char *argv[]) {
 
     int multiThreadCounter = 0;
 
-    /*
+    
     cout << "SPPMing ..." << endl;
 
     Sampler sampler(lights, camera, &img, &tracer, group, w, h);
     sampler.start();
 
 	cout << "SPPM done." << endl;
-    */
+    
 
     /*
     cout << "photon mapping ..." << endl;  
@@ -67,6 +67,7 @@ int main(int argc, char *argv[]) {
     PhotonTracer* photontracer = new PhotonTracer(lights, camera->getPhotons(), depth, tmin);
     photontracer->setGroup(group);
 	Photonmap* photonmap = photontracer->CalcPhotonmap();
+    Image* vol = photontracer->CalcVolumetricmap(camera);
     tracer.setPhotonMap(photonmap);
 	delete photontracer;
 
@@ -79,7 +80,7 @@ int main(int argc, char *argv[]) {
             Vector3f ans(0, 0, 0);
             Ray ray = camera->generateRay(Vector2f(x, y));
             ans += tracer.trace(ray, Xi, 1, 0);
-            img.SetPixel(x, y, ans);
+            img.SetPixel(x, y, ans + vol->GetPixel(x, y));
         }
         multiThreadCounter++;
         cout << "progress: " << (float) multiThreadCounter / h * 100 << "%\n";
@@ -91,7 +92,7 @@ int main(int argc, char *argv[]) {
 
 
 
-    
+    /*
     cout << "path tracing ..." << endl;  
     #pragma omp parallel for
     for (int it = 0; it < w * h; it++) {
@@ -121,7 +122,7 @@ int main(int argc, char *argv[]) {
 
     cout << "tracing done." << endl;
     img.SaveBMP(argv[2]);
-    
+    */
   
     /*
     cout << "casting ..." << endl;

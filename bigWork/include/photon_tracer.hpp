@@ -7,6 +7,7 @@
 #include "ray.hpp"
 #include "group.hpp"
 #include "light.hpp"
+#include "camera.hpp"
 #include "Photonmap.hpp"
 #include "hitpointmap.hpp"
 
@@ -24,6 +25,7 @@ public:
     void SetHitpointMap(HitpointMap* _hitpointMap) { hitpointMap = _hitpointMap; }
     Photonmap* GetPhotonmap() { return photonmap; }
     Photonmap* CalcPhotonmap();
+    Image* CalcVolumetricmap(Camera* camera);
     void Emitting(int test = 0);
 
 private:

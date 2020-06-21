@@ -57,6 +57,7 @@ public:
         // angle is in radian.
         this->w_angle = w_angle;
         this->h_angle = h_angle;
+        std::cout << w_angle << ' ' << h_angle << std::endl;
     }
 
     Ray generateRay(const Vector2f &point) override {
@@ -80,6 +81,19 @@ public:
         return Ray(newOrigin, newDirection);
     }
 
+    Vector3f calcPixel(Vector3f pos, int& w, int& h) {
+        Vector3f vec = pos - center;
+        float wlen = Vector3f::dot(vec.normalized(), horizontal.normalized());
+        float hlen = Vector3f::dot(vec.normalized(), up.normalized());
+        float dlen = Vector3f::dot(vec.normalized(), direction.normalized());
+
+        wlen *= (1.0f / dlen);
+        hlen *= (1.0f / dlen);
+
+        w = (wlen * width) / (2 * tan(w_angle / 2)) + width / 2;
+        h = (hlen * height) / (2 * tan(h_angle / 2)) + height / 2;
+        // std::cout << cosw << ' ' << cosh << ' ' << acos(cosw) << ' ' << pos << std::endl;
+    }
     
 
 protected:

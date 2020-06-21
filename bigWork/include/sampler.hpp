@@ -32,6 +32,7 @@ public:
 private:
     Camera* camera;
     Image* img;
+    Image* vol;
     Group* group;
     RayTracer* tracer;
     HitpointMap* hitpointMap;

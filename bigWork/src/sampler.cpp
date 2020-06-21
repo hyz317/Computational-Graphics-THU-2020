@@ -50,7 +50,7 @@ void Sampler::resampling() {
 					Ray ray = camera->generateRay(Vector2f((j + ( float ) c / 3.0f ), i + ( float ) r / 3.0f ));
 					color += tracer->trace(ray, Xi, 1, i * w + j, Vector3f(1, 1, 1) / 13) / 13;
 				}
-			img->SetPixel(j, i, color);
+			img->SetPixel(j, i, color + vol->GetPixel(j, i) * 0.6);
 
 			/*if (j == w - 1) {
 				printf("Resampling=%d/%d\n", i, h);
@@ -142,6 +142,8 @@ void Sampler::start()
 		photontracer->setGroup(group);
 		Photonmap* photonmap = photontracer->CalcPhotonmap();
 		tracer->setPhotonMap(photonmap);
+		// vol = photontracer->CalcVolumetricmap(camera);
+		vol = Image::LoadBMP("volumatrictest.bmp");
 		delete photontracer;
 
 		printf("photon map set up\n");
