@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     int num_lights = parser.getNumLights();
     int w = camera->getWidth();
     int h = camera->getHeight();
-    int samps = 2500;
+    int samps = 500;
     int depth = 10;
     Image img(w, h);
     float tmin = 1e-3;
@@ -94,9 +94,11 @@ int main(int argc, char *argv[]) {
     
     cout << "path tracing ..." << endl;  
     #pragma omp parallel for
-    for (int y = 0; y < h; y++) {
+    for (int it = 0; it < w * h; it++) {
         // cout << "progress: " << (float) y / h * 100 << "%\n";
-        for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
+        // for (unsigned short x = 0, Xi[3] = {y, y*y, y*y*y}; x < w; x++) {
+            int y = it / w, x = it % w;
+            unsigned short Xi[3] = {y, y*y, y*y*y};
             Vector3f ans(0, 0, 0);
             for (int sy = 0, i = (h-y-1) * w + x; sy < 2; sy++) {
                 Vector3f r;
@@ -113,7 +115,8 @@ int main(int argc, char *argv[]) {
             img.SetPixel(x, y, ans);
             multiThreadCounter++;
             cout << "progress: " << (float) multiThreadCounter / h / w * 100 << "%\n";
-        }
+        // }
+        if (it % 50 == 0) img.SaveBMP(argv[2]);
     }
 
     cout << "tracing done." << endl;

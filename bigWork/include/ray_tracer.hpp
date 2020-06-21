@@ -19,11 +19,11 @@ public:
               max_depth(d), group(g), lights(l), bkgcolor(c), tmin(tm), type(t) {}
     ~RayTracer() {}
 
-    Vector3f trace(Ray ray, unsigned short Xi[], int depth, int rc, Vector3f weight = Vector3f(1, 1, 1));
-    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight); // Phong model
-    Vector3f calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight);
-    Vector3f calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight);
-    Vector3f calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight);
+    Vector3f trace(Ray ray, unsigned short Xi[], int depth, int rc, Vector3f weight = Vector3f(1, 1, 1), int colotId = 3);
+    Vector3f calcDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight, int colorId = 3); // Phong model
+    Vector3f calcRandomDiffusion(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight, int colorId = 3);
+    Vector3f calcReflection(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight, int colorId = 3);
+    Vector3f calcRefraction(Ray ray, Hit& hit, int depth, unsigned short Xi[], int rc, Vector3f weight, int colorId = 3);
 
     bool intersectLight(Ray ray, float& dis, Vector3f& color);
     void setPhotonMap(Photonmap* p) { photonmap = p; }

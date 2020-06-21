@@ -1,30 +1,23 @@
 
 PerspectiveCamera {
-    center 50 52 295.6
-    direction 0 -0.04 -1
+    center 50 50 295.6
+    direction 0 0 -1
     up 0 1 0
-    w-angle 40
+    w-angle 30
     h-angle 30
-    width 400
-    height 300
-    photons 0
+    width 600
+    height 600
+    photons 10000000
 }
 
 Lights {
-    numLights 2
+    numLights 1
     AreaLight {
-        position 50 81.33 81.33
+        position 50 98.33 70
         x_axis 18 0 0
         y_axis 0 0 18
         color 1 1 1
-        emission 12
-    }
-    AreaLight {
-        position 50 81.33 281.33
-        x_axis 18 0 0
-        y_axis 0 0 18
-        color 1 1 1
-        emission 8
+        emission 25
     }
 }
 
@@ -33,17 +26,8 @@ Background {
 }
 
 Materials {
-    numMaterials 9
-    Material { diffuseColor 0.75 0.40 0.40 }
-    Material { diffuseColor 0.40 0.40 0.75 }
+    numMaterials 7
     Material { diffuseColor 0.75 0.75 0.75 }
-    Material { diffuseColor 0 0 0 }
-    Material { 
-        diffuseColor 0.99 0.99 0.99
-        diff_factor 0.00
-        spec_factor 1.00
-        refr_factor 0.00
-    }
     Material { 
         diffuseColor 0.99 0.99 0.99
         diff_factor 0.00
@@ -51,35 +35,51 @@ Materials {
         refr_factor 1.00
         n 1.50
     }
-    Material { diffuseColor 1 0 0 }
     Material {
         specularColor 1 1 1
         shininess 20
-        texture texture/tex02.bmp
+        texture texture/tex08.bmp
     }
-    Material {
-        specularColor 1 1 1
-        shininess 20
-        texture texture/tex01.bmp
+    Material { 
+        diffuseColor 0.5 0.5 0.99
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+    Material { 
+        diffuseColor 0.99 0.5 0.5
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+    Material { 
+        diffuseColor 0.5 0.99 0.5
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
+    }
+    Material { 
+        diffuseColor 0.99 0.99 0.2
+        diff_factor 0.00
+        spec_factor 0.00
+        refr_factor 1.00
+        n 1.50
     }
 }
 
 Group {
-    numObjects 9
+    numObjects 6
     MaterialIndex 0
     Plane {
 	    normal 1 0 0
         offset 1
     }
-    MaterialIndex 1
     Plane {
 	    normal -1 0 0
         offset -99
-    }
-    MaterialIndex 2
-    Plane {
-	    normal 0 0 1
-        offset 0
     }
     Plane {
 	    normal 0 1 0
@@ -87,23 +87,17 @@ Group {
     }
     Plane {
 	    normal 0 -1 0
-        offset -81.6
+        offset -99
     }
-    MaterialIndex 3
     Plane {
         normal 0 0 -1
-        offset -300
+        offset -350
     }
-    MaterialIndex 7
-    Sphere {
-	    center 27 16.5 47 
-        radius 16.5
+    MaterialIndex 1
+    TriangleMesh {
+        obj_file mesh/fragment1.obj
+        offset 28 35.5 70
+        scaling 1.5 1.5 1.5
     }
-    MaterialIndex 5
-    Sphere {
-	    center 73 16.5 78
-        radius 16.5
-    }
-    
 }
 
